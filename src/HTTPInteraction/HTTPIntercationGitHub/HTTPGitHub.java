@@ -1,8 +1,10 @@
-package HTTPIntercationGitHub;
+package HTTPInteraction.HTTPIntercationGitHub;
+
+import HTTPInteraction.HTTPGit;
 
 import java.net.http.HttpClient;
 
-public class HTTPGitHub {
+public class HTTPGitHub implements HTTPGit {
     public static final String GITHUB_API_LINK = "https://api.github.com/";
 
     private final String owner;
@@ -26,11 +28,27 @@ public class HTTPGitHub {
         branchRetriever = new BranchRetriever(this);
     }
 
+    @Override
     public HttpClient getClient() {
         return client;
     }
 
-    public String branch() {
-        return branchRetriever.retrieve("x");
+    @Override
+    public String getOwner() {
+        return owner;
+    }
+
+    @Override
+    public String getRepo() {
+        return repo;
+    }
+
+    @Override
+    public String getToken() {
+        return token;
+    }
+
+    public String branch(String branchName) {
+        return branchRetriever.retrieve(branchName);
     }
 }

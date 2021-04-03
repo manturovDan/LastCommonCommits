@@ -29,4 +29,8 @@ public class HTTPGitHub {
     public HttpClient getClient() {
         return client;
     }
+
+    public String branch() {
+        return branchRetriever.retrieve("x");
+    }
 }

@@ -13,7 +13,7 @@ public class BranchRetriever {
 
     String retrieve(String branchName) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(HTTPGitHub.GITHUB_API_LINK + "manturovDan/AugmentedRealityRecon/tree/rasterization"))
+                .uri(URI.create(HTTPGitHub.GITHUB_API_LINK + "repos/manturovDan/AugmentedRealityRecon/branches/rasterization"))
                 .build();
 
         String res = mediator.getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())

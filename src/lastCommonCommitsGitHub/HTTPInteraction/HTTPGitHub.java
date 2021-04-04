@@ -1,6 +1,8 @@
 package lastCommonCommitsGitHub.HTTPInteraction;
 
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class HTTPGitHub implements HTTPGitHubMediator {
     public static final String GITHUB_API_LINK = "https://api.github.com/";
@@ -11,6 +13,7 @@ public class HTTPGitHub implements HTTPGitHubMediator {
     private HttpClient client;
 
     private BranchGetter branchGetter;
+    private LastEventGetter lastEventGetter;
 
 
     public HTTPGitHub(String owner, String repo, String token) {
@@ -25,6 +28,7 @@ public class HTTPGitHub implements HTTPGitHubMediator {
 
     private void initializeMediatorComponents() {
         branchGetter = new BranchGetter(this);
+        lastEventGetter = new LastEventGetter(this);
     }
 
     @Override
@@ -47,7 +51,26 @@ public class HTTPGitHub implements HTTPGitHubMediator {
         return token;
     }
 
+    public HttpRequest createRequestWithAuth(HttpRequest.Builder builder) {
+        if (token.equals("")) {
+            return builder.build();
+        }
+        else {
+            return builder.header("Authorization", "Bearer " + token).build();
+        }
+    }
+
+    @Override
+    public String send(HttpRequest request) {
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body).join();
+    }
+
     public String branch(String branchName) {
         return branchGetter.retrieve(branchName);
+    }
+
+    public String lastEvent() {
+        return lastEventGetter.retrieve();
     }
 }

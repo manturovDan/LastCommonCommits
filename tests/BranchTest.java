@@ -1,4 +1,4 @@
-import HTTPInteraction.HTTPGitHubMediatorHub;
+import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHubMediatorHub;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

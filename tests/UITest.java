@@ -1,4 +1,4 @@
-import UI.IOInteraction;
+import lastCommonCommitsGitHub.UI.IOInteraction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ public class UITest {
                 }
         ));
 
-        ui.findOutGithubRepositoryInfo();
+        ui.findOutGitHubRepositoryInfo();
         Assertions.assertEquals("OwnerName", ui.getOwner());
         Assertions.assertNotEquals("OwnerName1", ui.getOwner());
         Assertions.assertEquals("RepositoryName", ui.getRepo());
@@ -33,7 +33,7 @@ public class UITest {
 
         Assertions.assertThrows(RuntimeException.class, ui::getOwner);
 
-        ui.findOutGithubRepositoryInfo();
+        ui.findOutGitHubRepositoryInfo();
         Assertions.assertEquals("OwnerName", ui.getOwner());
         Assertions.assertNotEquals("OwnerName1", ui.getOwner());
         Assertions.assertEquals("RepositoryName", ui.getRepo());
@@ -49,7 +49,7 @@ public class UITest {
                 }
         ));
 
-        ui.findOutGithubRepositoryInfo();
+        ui.findOutGitHubRepositoryInfo();
         Assertions.assertEquals("OwnerName", ui.getOwner());
         Assertions.assertNotEquals("OwnerName1", ui.getOwner());
         Assertions.assertEquals("RepositoryName", ui.getRepo());

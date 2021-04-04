@@ -1,4 +1,4 @@
-package HTTPInteraction;
+package lastCommonCommitsGitHub.HTTPInteraction;
 
 import java.net.URI;
 import java.net.http.HttpRequest;

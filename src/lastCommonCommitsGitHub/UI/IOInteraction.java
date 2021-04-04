@@ -1,8 +1,7 @@
-package UI;
+package lastCommonCommitsGitHub.UI;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -22,7 +21,7 @@ public class IOInteraction {
         this(System.in, System.out);
     }
 
-    public void findOutGithubRepositoryInfo() throws IOException {
+    public void findOutGitHubRepositoryInfo() throws IOException {
         outputStream.println("Hello, it is program for finding last common commits");
         try (Scanner scanner = new Scanner(inputStream)) {
             outputStream.println("Input OWNER:");

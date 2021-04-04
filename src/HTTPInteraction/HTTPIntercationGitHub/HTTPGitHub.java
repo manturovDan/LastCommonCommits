@@ -21,6 +21,7 @@ public class HTTPGitHub implements HTTPGit {
         this.token = token;
 
         client = HttpClient.newHttpClient();
+
         initializeMediatorComponents();
     }
 

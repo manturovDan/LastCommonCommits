@@ -16,6 +16,7 @@ public class BranchRetriever {
     String retrieve(String branchName) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(constructURI(branchName)))
+                .header("Authorization", "Bearer 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")
                 .build();
 
         String res = mediator.getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())

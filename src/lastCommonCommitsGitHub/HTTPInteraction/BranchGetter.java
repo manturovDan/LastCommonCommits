@@ -24,7 +24,7 @@ public class BranchGetter {
     }
 
     private String constructURI(String branchName) {
-        return HTTPGitHubMediatorHub.GITHUB_API_LINK + "repos/" + mediator.getOwner()
+        return HTTPGitHub.GITHUB_API_LINK + "repos/" + mediator.getOwner()
                 + "/" + mediator.getRepo() + "/branches/" + branchName;
     }
 

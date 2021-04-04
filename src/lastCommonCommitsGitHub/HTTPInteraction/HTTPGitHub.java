@@ -2,7 +2,7 @@ package lastCommonCommitsGitHub.HTTPInteraction;
 
 import java.net.http.HttpClient;
 
-public class HTTPGitHubMediatorHub implements HTTPGitHubMediator {
+public class HTTPGitHub implements HTTPGitHubMediator {
     public static final String GITHUB_API_LINK = "https://api.github.com/";
 
     private final String owner;
@@ -13,7 +13,7 @@ public class HTTPGitHubMediatorHub implements HTTPGitHubMediator {
     private BranchGetter branchGetter;
 
 
-    public HTTPGitHubMediatorHub(String owner, String repo, String token) {
+    public HTTPGitHub(String owner, String repo, String token) {
         this.owner = owner;
         this.repo = repo;
         this.token = token;

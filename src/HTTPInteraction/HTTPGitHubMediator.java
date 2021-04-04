@@ -2,7 +2,7 @@ package HTTPInteraction;
 
 import java.net.http.HttpClient;
 
-public interface HTTPGit {
+public interface HTTPGitHubMediator {
     HttpClient getClient();
     String getOwner();
     String getRepo();

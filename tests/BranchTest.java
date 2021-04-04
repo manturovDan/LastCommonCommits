@@ -1,12 +1,12 @@
-import HTTPInteraction.HTTPIntercationGitHub.HTTPGitHub;
+import HTTPInteraction.HTTPGitHubMediatorHub;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class BranchTest {
     @Test
     public void createRequestTest() {
-        HTTPGitHub interaction = new HTTPGitHub("manturovDan", "AugmentedRealityRecon", "-");
-        System.out.println(interaction.branch("master"));
+        HTTPGitHubMediatorHub interaction = new HTTPGitHubMediatorHub("manturovDanExperimental", "cross3", "");
+        System.out.println(interaction.branch("A"));
 
         Assertions.assertTrue(true);
     }

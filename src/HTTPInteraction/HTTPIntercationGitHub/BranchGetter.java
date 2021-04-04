@@ -6,17 +6,17 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class BranchRetriever {
+public class BranchGetter {
     private final HTTPGit mediator;
 
-    BranchRetriever(HTTPGit mediator) {
+    BranchGetter(HTTPGit mediator) {
         this.mediator = mediator;
     }
 
     String retrieve(String branchName) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(constructURI(branchName)))
-                .header("Authorization", "Bearer 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")
+                .header("Authorization", "Bearer " + mediator.getToken())
                 .build();
 
         String res = mediator.getClient().sendAsync(request, HttpResponse.BodyHandlers.ofString())

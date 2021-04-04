@@ -12,7 +12,7 @@ public class HTTPGitHub implements HTTPGit {
     private final String token;
     private HttpClient client;
 
-    private BranchRetriever branchRetriever;
+    private BranchGetter branchGetter;
 
 
     public HTTPGitHub(String owner, String repo, String token) {
@@ -26,7 +26,7 @@ public class HTTPGitHub implements HTTPGit {
     }
 
     private void initializeMediatorComponents() {
-        branchRetriever = new BranchRetriever(this);
+        branchGetter = new BranchGetter(this);
     }
 
     @Override
@@ -50,6 +50,6 @@ public class HTTPGitHub implements HTTPGit {
     }
 
     public String branch(String branchName) {
-        return branchRetriever.retrieve(branchName);
+        return branchGetter.retrieve(branchName);
     }
 }

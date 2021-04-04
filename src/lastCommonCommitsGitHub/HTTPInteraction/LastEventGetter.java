@@ -13,6 +13,7 @@ public class LastEventGetter {
     public String retrieve() {
         HttpRequest request = createRequest();
         String response = mediator.send(request);
+        System.out.println(mediator.getJSONHAndler().lastEventId(response));
         return response;
     }
 

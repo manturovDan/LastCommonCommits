@@ -14,7 +14,7 @@ public class HTTPGitHub implements HTTPGitHubMediator {
 
     private BranchGetter branchGetter;
     private LastEventGetter lastEventGetter;
-
+    private JSONHandler jsonHandler;
 
     public HTTPGitHub(String owner, String repo, String token) {
         this.owner = owner;
@@ -29,6 +29,7 @@ public class HTTPGitHub implements HTTPGitHubMediator {
     private void initializeMediatorComponents() {
         branchGetter = new BranchGetter(this);
         lastEventGetter = new LastEventGetter(this);
+        jsonHandler = new JSONHandler();
     }
 
     @Override
@@ -49,6 +50,11 @@ public class HTTPGitHub implements HTTPGitHubMediator {
     @Override
     public String getToken() {
         return token;
+    }
+
+    @Override
+    public JSONHandler getJSONHAndler() {
+        return jsonHandler;
     }
 
     public HttpRequest createRequestWithAuth(HttpRequest.Builder builder) {

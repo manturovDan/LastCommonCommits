@@ -8,6 +8,7 @@ public interface HTTPGitHubMediator {
     String getOwner();
     String getRepo();
     String getToken();
+    JSONHandler getJSONHAndler();
     HttpRequest createRequestWithAuth(HttpRequest.Builder builder);
     String send(HttpRequest request);
 }

@@ -1,5 +1,4 @@
 import lastCommonCommitsGitHub.RepoInteraction;
-import lastCommonCommitsGitHub.UI.IOInteraction;
 
 import java.io.IOException;
 

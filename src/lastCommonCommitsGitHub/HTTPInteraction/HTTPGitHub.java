@@ -76,7 +76,7 @@ public class HTTPGitHub implements HTTPGitHubMediator {
         return branchGetter.retrieve(branchName);
     }
 
-    public String lastEvent() {
+    public long lastEvent() {
         return lastEventGetter.retrieve();
     }
 }

@@ -10,11 +10,10 @@ public class LastEventGetter {
         this.mediator = mediator;
     }
 
-    public String retrieve() {
+    public long retrieve() {
         HttpRequest request = createRequest();
         String response = mediator.send(request);
-        System.out.println(mediator.getJSONHAndler().lastEventId(response));
-        return response;
+        return mediator.getJSONHAndler().lastEventId(response);
     }
 
     private HttpRequest createRequest() {

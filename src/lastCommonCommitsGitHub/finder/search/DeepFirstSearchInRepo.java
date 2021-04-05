@@ -1,6 +1,7 @@
 package lastCommonCommitsGitHub.finder.search;
 
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
+import lastCommonCommitsGitHub.HTTPInteraction.JSONHandler;
 import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 
 public class DeepFirstSearchInRepo {
@@ -13,6 +14,10 @@ public class DeepFirstSearchInRepo {
     }
 
     public void buildGitGraph() {
-
+        JSONHandler.JSONCommitParser commits = HTTPInteraction.getCommits();
+        while (commits.hasNext()) {
+            String commit = commits.next();
+            System.out.println(commit);
+        }
     }
 }

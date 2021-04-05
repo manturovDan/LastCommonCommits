@@ -1,4 +1,5 @@
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
+import lastCommonCommitsGitHub.finder.search.DeepFirstSearchInRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +29,7 @@ public class HTTPTest {
     @Test
     public void allCommits() {
         HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", "");
-        System.out.println(interaction.getCommits());
+        DeepFirstSearchInRepo dfs = new DeepFirstSearchInRepo(interaction);
+        dfs.buildGitGraph();
     }
 }

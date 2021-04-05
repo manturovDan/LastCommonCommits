@@ -5,12 +5,32 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.util.Iterator;
+
 
 public class JSONHandler {
-    private Gson gson;
+    public static class JSONCommitParser implements Iterator<String> {
+        private int commitNum;
+        private final JsonArray commitsArray;
 
-    public JSONHandler() {
-        gson = new Gson();
+        JSONCommitParser(String response) {
+            Object obj = new JsonParser().parse(response);
+            commitsArray = (JsonArray) obj;
+            commitNum = 0;
+        }
+
+        public String next() {
+            if (commitNum == commitsArray.size())
+                return null;
+
+            JsonObject commit = (JsonObject) commitsArray.get(commitNum);
+            commitNum++;
+            return commit.get("sha").getAsString();
+        }
+
+        public boolean hasNext() {
+            return commitNum != commitsArray.size();
+        }
     }
 
     public long lastEventId(String eventsResponse) {
@@ -28,5 +48,9 @@ public class JSONHandler {
         JsonObject branch = (JsonObject) obj;
         JsonObject commit = (JsonObject) branch.get("commit");
         return commit.get("sha").getAsString();
+    }
+
+    public JSONCommitParser getCommits(String commitResponse) {
+        return new JSONCommitParser(commitResponse);
     }
 }

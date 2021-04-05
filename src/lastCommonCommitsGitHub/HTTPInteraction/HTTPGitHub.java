@@ -82,7 +82,7 @@ public class HTTPGitHub implements HTTPGitHubMediator {
         return lastEventGetter.retrieve();
     }
 
-    public String getCommits() {
+    public JSONHandler.JSONCommitParser getCommits() {
         return commitsGetter.retrieve();
     }
 }

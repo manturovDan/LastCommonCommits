@@ -10,11 +10,11 @@ public class CommitsGetter {
         this.mediator = mediator;
     }
 
-    public String retrieve() {
+    public JSONHandler.JSONCommitParser retrieve() {
         HttpRequest request = createRequest();
         String response = mediator.send(request);
 
-        return response;
+        return new JSONHandler.JSONCommitParser(response);
     }
 
     private String constructURI() {

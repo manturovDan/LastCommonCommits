@@ -20,7 +20,12 @@ public class DeepFirstSearchInRepo {
         JSONHandler.JSONCommitParser commits = HTTPInteraction.getCommits(branchName);
         while (commits.hasNext()) {
             AbstractMap.SimpleEntry<String, List<String>> commit = commits.next();
-            System.out.println(commit);
+            storage.addCommitInRepo(commit);
         }
+        System.out.println(storage.presentRepoGraph());
+    }
+
+    public void lastCommonCommits(String branchA, String branchB) {
+        buildGitGraph(branchA);
     }
 }

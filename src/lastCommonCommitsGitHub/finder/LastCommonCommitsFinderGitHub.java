@@ -27,12 +27,7 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
 
         for (int attempt = 0; attempt < 5; ++attempt) {
             long lastEventId = HTTPInteraction.lastEvent();
-            search.buildGitGraph(branchA);
-
-            if (lastEventId != HTTPInteraction.lastEvent())
-                continue;
-
-            //search.lastCommonCommits(branchA, branchB);
+            search.lastCommonCommits(branchA, branchB);
 
             if (lastEventId == HTTPInteraction.lastEvent())
                 break;

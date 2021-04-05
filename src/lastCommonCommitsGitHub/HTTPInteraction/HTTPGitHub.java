@@ -10,10 +10,11 @@ public class HTTPGitHub implements HTTPGitHubMediator {
     private final String owner;
     private final String repo;
     private final String token;
-    private HttpClient client;
+    private final HttpClient client;
 
     private BranchGetter branchGetter;
     private LastEventGetter lastEventGetter;
+    private CommitsGetter commitsGetter;
     private JSONHandler jsonHandler;
 
     public HTTPGitHub(String owner, String repo, String token) {
@@ -29,6 +30,7 @@ public class HTTPGitHub implements HTTPGitHubMediator {
     private void initializeMediatorComponents() {
         branchGetter = new BranchGetter(this);
         lastEventGetter = new LastEventGetter(this);
+        commitsGetter = new CommitsGetter(this);
         jsonHandler = new JSONHandler();
     }
 
@@ -78,5 +80,9 @@ public class HTTPGitHub implements HTTPGitHubMediator {
 
     public long lastEvent() {
         return lastEventGetter.retrieve();
+    }
+
+    public String getCommits() {
+        return commitsGetter.retrieve();
     }
 }

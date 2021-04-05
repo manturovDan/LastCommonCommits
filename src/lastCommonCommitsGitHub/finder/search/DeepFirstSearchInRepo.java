@@ -11,4 +11,8 @@ public class DeepFirstSearchInRepo {
         this.HTTPInteraction = HTTPInteraction;
         storage = new SearchStorage(HTTPInteraction.getRepo());
     }
+
+    public void buildGitGraph() {
+
+    }
 }

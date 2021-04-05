@@ -24,4 +24,10 @@ public class HTTPTest {
         HTTPGitHub interaction = new HTTPGitHub("manturovDan", "Sake", "");
         Assertions.assertEquals(0L, interaction.lastEvent());
     }
+
+    @Test
+    public void allCommits() {
+        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", "");
+        System.out.println(interaction.getCommits());
+    }
 }

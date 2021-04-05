@@ -14,7 +14,8 @@ public class BranchGetter {
     //retrieves top commit of the branch
     String retrieve(String branchName) {
         HttpRequest request = createRequest(branchName);
-        return mediator.send(request);
+        String response = mediator.send(request);
+        return mediator.getJSONHAndler().getBranchCommit(response);
     }
 
     private String constructURI(String branchName) {

@@ -6,9 +6,7 @@ public class HTTPTest {
     @Test
     public void createRequestTest() {
         HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", "");
-        System.out.println(interaction.branch("A"));
-
-        Assertions.assertTrue(true);
+        Assertions.assertEquals("84e222f75a5b37b63602abcb2b46f9984093d3d7", interaction.branch("A"));
     }
 
     @Test

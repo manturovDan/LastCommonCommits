@@ -8,9 +8,9 @@ public class RepositoryGraph {
     private long lastEventId;
     private HashMap<String, List<String>> commitGraph;
 
-    public RepositoryGraph(String repo, long lastEventId) {
+    public RepositoryGraph(String repo) {
         this.repo = repo;
-        this.lastEventId = lastEventId;
+        this.lastEventId = 0;
         commitGraph = new HashMap<>();
     }
 }

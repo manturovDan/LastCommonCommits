@@ -7,9 +7,9 @@ public class SearchStorage {
     private SetOfCommits lastCommonCommits;
     private String repo;
 
-    public SearchStorage(String repo, long lastEventId) {
+    public SearchStorage(String repo) {
         this.repo = repo;
-        repositoryGraph = new RepositoryGraph(repo, lastEventId);
+        repositoryGraph = new RepositoryGraph(repo);
         preStoredBranch = new SetOfCommits();
         commitsUnderLastCommon = new SetOfCommits();
         lastCommonCommits = new SetOfCommits();

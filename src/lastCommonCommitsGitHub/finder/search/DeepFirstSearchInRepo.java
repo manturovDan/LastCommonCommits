@@ -7,8 +7,8 @@ public class DeepFirstSearchInRepo {
     private SearchStorage storage;
     private HTTPGitHub HTTPInteraction;
 
-    public DeepFirstSearchInRepo(HTTPGitHub HTTPInteraction, long lastEventId) {
+    public DeepFirstSearchInRepo(HTTPGitHub HTTPInteraction) {
         this.HTTPInteraction = HTTPInteraction;
-        storage = new SearchStorage(HTTPInteraction.getRepo(), lastEventId);
+        storage = new SearchStorage(HTTPInteraction.getRepo());
     }
 }

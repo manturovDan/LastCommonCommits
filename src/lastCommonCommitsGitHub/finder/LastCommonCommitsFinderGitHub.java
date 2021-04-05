@@ -14,20 +14,30 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     private String token;
     private HTTPGitHub HTTPInteraction;
 
-    public LastCommonCommitsFinderGitHub(String owner, String repo, String token) {
+    LastCommonCommitsFinderGitHub(String owner, String repo, String token) {
         this.owner = owner;
         this.repo = repo;
         this.token = token;
-    }
-
-    public void initialize() {
         HTTPInteraction = new HTTPGitHub(owner, repo, token);
-        long lastEventId = HTTPInteraction.lastEvent();
-        DeepFirstSearchInRepo search = new DeepFirstSearchInRepo(HTTPInteraction, lastEventId);
     }
 
     @Override
     public Collection<String> findLastCommonCommits(String branchA, String branchB) throws IOException {
+        DeepFirstSearchInRepo search = new DeepFirstSearchInRepo(HTTPInteraction);
+
+        for (int attempt = 0; attempt < 5; ++attempt) {
+            long lastEventId = HTTPInteraction.lastEvent();
+            //search.buildGitGraph();
+
+            if (lastEventId != HTTPInteraction.lastEvent())
+                continue;
+
+            //search.lastCommonCommits(branchA, branchB);
+
+            if (lastEventId == HTTPInteraction.lastEvent())
+                break;
+        }
+
         return null;
     }
 }

@@ -95,7 +95,10 @@ public class AlgorithmTests {
     public void cross3BranchATest() throws Exception {
         HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", "");
         DeepFirstSearchInRepo dfs = new DeepFirstSearchInRepo(interaction);
-        dfs.buildGitGraph("A");
+        String aTop = dfs.buildGitGraph("A");
+
+        Assertions.assertEquals(aTop, "84e222f75a5b37b63602abcb2b46f9984093d3d7");
+
         SearchStorage storage = getStorageFromDFS(dfs);
         HashMap<String, List<String>> graph = getGraphFromStorage(storage);
 
@@ -141,8 +144,11 @@ public class AlgorithmTests {
     public void cross3ABTest() throws Exception {
         HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", "");
         DeepFirstSearchInRepo dfs = new DeepFirstSearchInRepo(interaction);
-        dfs.buildGitGraph("A");
-        dfs.buildGitGraph("B");
+        String aTop = dfs.buildGitGraph("A");
+        String bTop = dfs.buildGitGraph("B");
+
+        Assertions.assertEquals(aTop, "84e222f75a5b37b63602abcb2b46f9984093d3d7");
+        Assertions.assertEquals(bTop, "3aab5282d567ed69daaec373e7cc5bc1985015ef");
 
         cross3FullRepo(dfs);
     }
@@ -153,7 +159,8 @@ public class AlgorithmTests {
         DeepFirstSearchInRepo dfs = new DeepFirstSearchInRepo(interaction);
         dfs.buildGitGraph("A");
         dfs.buildGitGraph("B");
-        dfs.buildGitGraph("C");
+        String cTop = dfs.buildGitGraph("C");
+        Assertions.assertEquals(cTop, "3aab5282d567ed69daaec373e7cc5bc1985015ef");
 
         cross3FullRepo(dfs);
     }

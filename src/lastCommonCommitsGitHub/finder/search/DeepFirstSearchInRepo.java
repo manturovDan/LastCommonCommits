@@ -16,18 +16,24 @@ public class DeepFirstSearchInRepo {
         storage = new SearchStorage(HTTPInteraction.getRepo());
     }
 
-    public void buildGitGraph(String branchName) {
+    public String buildGitGraph(String branchName) {
         JSONHandler.JSONCommitParser commits = HTTPInteraction.getCommits(branchName);
+        String topCommit = null;
         while (commits.hasNext()) {
             AbstractMap.SimpleEntry<String, List<String>> commit = commits.next();
             storage.addCommitInRepo(commit);
+            if (topCommit == null)
+                topCommit = commit.getKey();
         }
-        //System.out.println(storage.presentRepoGraph());
+
+        return topCommit;
     }
 
     public void lastCommonCommits(String branchA, String branchB) {
-        buildGitGraph(branchA);
+        String topBranchA = buildGitGraph(branchA);
         storage.copyCommitsFromGraphToPreStoredBranch();
-        buildGitGraph(branchB);
+        String topBranchB = buildGitGraph(branchB);
+
+
     }
 }

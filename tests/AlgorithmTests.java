@@ -2,11 +2,13 @@ import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
 import lastCommonCommitsGitHub.finder.search.DeepFirstSearchInRepo;
 import lastCommonCommitsGitHub.finder.storage.RepositoryGraph;
 import lastCommonCommitsGitHub.finder.storage.SearchStorage;
+import lastCommonCommitsGitHub.finder.storage.SetOfCommits;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class AlgorithmTests {
@@ -26,6 +28,21 @@ public class AlgorithmTests {
         Field commitGraphField = RepositoryGraph.class.getDeclaredField("commitGraph");
         commitGraphField.setAccessible(true);
         return (HashMap<String, List<String>>) commitGraphField.get(graph);
+    }
+
+    private HashSet<String> getPreStoredBranch(SearchStorage storage) throws Exception {
+        Field preStoredField = SearchStorage.class.getDeclaredField("preStoredBranch");
+        preStoredField.setAccessible(true);
+        SetOfCommits preStored = (SetOfCommits) preStoredField.get(storage);
+
+        return getInternalSetOfSetOfCommits(preStored);
+    }
+
+    @SuppressWarnings("unchecked")
+    private HashSet<String> getInternalSetOfSetOfCommits(SetOfCommits set) throws Exception {
+        Field setField = SetOfCommits.class.getDeclaredField("commitsSet");
+        setField.setAccessible(true);
+        return (HashSet<String>) setField.get(set);
     }
 
     public void cross3BCCommonCommits(HashMap<String, List<String>> graph) throws Exception {
@@ -121,13 +138,28 @@ public class AlgorithmTests {
     }
 
     @Test
-    public void cross3FullRepo() throws Exception {
+    public void cross3ABTest() throws Exception {
         HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", "");
         DeepFirstSearchInRepo dfs = new DeepFirstSearchInRepo(interaction);
         dfs.buildGitGraph("A");
         dfs.buildGitGraph("B");
 
-        SearchStorage storage = getStorageFromDFS(dfs);
+        cross3FullRepo(dfs);
+    }
+
+    @Test
+    public void cross3ABCTest() throws Exception {
+        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", "");
+        DeepFirstSearchInRepo dfs = new DeepFirstSearchInRepo(interaction);
+        dfs.buildGitGraph("A");
+        dfs.buildGitGraph("B");
+        dfs.buildGitGraph("C");
+
+        cross3FullRepo(dfs);
+    }
+
+    public void cross3FullRepo(DeepFirstSearchInRepo dfs) throws Exception {
+                SearchStorage storage = getStorageFromDFS(dfs);
         HashMap<String, List<String>> graph = getGraphFromStorage(storage);
 
         Assertions.assertEquals(graph.size(), 6);
@@ -141,5 +173,23 @@ public class AlgorithmTests {
                 .contains("55242422e68e4b9f817e3fe9702e2fa49859c2cf"));
         Assertions.assertTrue(graph.get("84e222f75a5b37b63602abcb2b46f9984093d3d7")
                 .contains("d9ac181925ef186b66efa4a82ba73e88ea3bc98a"));
+    }
+
+    @Test
+    public void lastCommonCommitsABTest() throws Exception {
+        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", "");
+        DeepFirstSearchInRepo dfs = new DeepFirstSearchInRepo(interaction);
+        dfs.lastCommonCommits("A", "B");
+        cross3FullRepo(dfs);
+
+        HashSet<String> preStored = getPreStoredBranch(getStorageFromDFS(dfs));
+
+        Assertions.assertEquals(preStored.size(), 5);
+        Assertions.assertTrue(preStored.contains("84e222f75a5b37b63602abcb2b46f9984093d3d7"));
+        Assertions.assertTrue(preStored.contains("615ba764d7ce72e496324b28dab880a6fed56455"));
+        Assertions.assertTrue(preStored.contains("55242422e68e4b9f817e3fe9702e2fa49859c2cf"));
+        Assertions.assertTrue(preStored.contains("d9ac181925ef186b66efa4a82ba73e88ea3bc98a"));
+        Assertions.assertTrue(preStored.contains("18944685cb9f413ee3e52cdb6db02559c6fdcccd"));
+
     }
 }

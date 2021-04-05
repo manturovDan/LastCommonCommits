@@ -22,10 +22,12 @@ public class DeepFirstSearchInRepo {
             AbstractMap.SimpleEntry<String, List<String>> commit = commits.next();
             storage.addCommitInRepo(commit);
         }
-        System.out.println(storage.presentRepoGraph());
+        //System.out.println(storage.presentRepoGraph());
     }
 
     public void lastCommonCommits(String branchA, String branchB) {
         buildGitGraph(branchA);
+        storage.copyCommitsFromGraphToPreStoredBranch();
+        buildGitGraph(branchB);
     }
 }

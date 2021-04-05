@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SearchStorage {
     private final RepositoryGraph repositoryGraph;
-    private SetOfCommits preStoredBranch;
+    private final SetOfCommits preStoredBranch;
     private SetOfCommits commitsUnderLastCommon;
     private SetOfCommits lastCommonCommits;
     private String repo;
@@ -20,6 +20,10 @@ public class SearchStorage {
 
     public void addCommitInRepo(AbstractMap.SimpleEntry<String, List<String>> pairCommitParents) {
         repositoryGraph.put(pairCommitParents.getKey(), pairCommitParents.getValue());
+    }
+
+    public void copyCommitsFromGraphToPreStoredBranch() {
+        preStoredBranch.establishSet(repositoryGraph.keys());
     }
 
     public String presentRepoGraph() {

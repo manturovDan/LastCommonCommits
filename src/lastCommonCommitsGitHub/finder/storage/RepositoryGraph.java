@@ -1,6 +1,7 @@
 package lastCommonCommitsGitHub.finder.storage;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class RepositoryGraph {
@@ -16,6 +17,10 @@ public class RepositoryGraph {
 
     void put(String commit, List<String> parents) {
         commitGraph.put(commit, parents);
+    }
+
+    HashSet<String> keys() {
+        return new HashSet<>(commitGraph.keySet());
     }
 
     @Override

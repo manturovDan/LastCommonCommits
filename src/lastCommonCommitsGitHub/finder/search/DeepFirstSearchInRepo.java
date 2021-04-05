@@ -13,8 +13,8 @@ public class DeepFirstSearchInRepo {
         storage = new SearchStorage(HTTPInteraction.getRepo());
     }
 
-    public void buildGitGraph() {
-        JSONHandler.JSONCommitParser commits = HTTPInteraction.getCommits();
+    public void buildGitGraph(String branchName) {
+        JSONHandler.JSONCommitParser commits = HTTPInteraction.getCommits(branchName);
         while (commits.hasNext()) {
             String commit = commits.next();
             System.out.println(commit);

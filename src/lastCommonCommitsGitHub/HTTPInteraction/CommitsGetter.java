@@ -10,21 +10,21 @@ public class CommitsGetter {
         this.mediator = mediator;
     }
 
-    public JSONHandler.JSONCommitParser retrieve() {
-        HttpRequest request = createRequest();
+    public JSONHandler.JSONCommitParser retrieve(String branchName) {
+        HttpRequest request = createRequest(branchName);
         String response = mediator.send(request);
 
         return new JSONHandler.JSONCommitParser(response);
     }
 
-    private String constructURI() {
+    private String constructURI(String branchName) {
         return HTTPGitHub.GITHUB_API_LINK + "repos/" + mediator.getOwner()
-                + "/" + mediator.getRepo() + "/commits";
+                + "/" + mediator.getRepo() + "/commits?sha=" + branchName;
     }
 
-    private HttpRequest createRequest() {
+    private HttpRequest createRequest(String branchName) {
         HttpRequest.Builder builder = HttpRequest.newBuilder()
-                .uri(URI.create(constructURI()));
+                .uri(URI.create(constructURI(branchName)));
 
         return mediator.createRequestWithAuth(builder);
     }

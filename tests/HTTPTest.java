@@ -26,7 +26,7 @@ public class HTTPTest {
         Assertions.assertEquals(0L, interaction.lastEvent());
     }
 
-    @Test
+    //@Test
     public void allCommits() {
         HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", "");
         DeepFirstSearchInRepo dfs = new DeepFirstSearchInRepo(interaction);

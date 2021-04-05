@@ -4,7 +4,7 @@ import java.util.AbstractMap;
 import java.util.List;
 
 public class SearchStorage {
-    private RepositoryGraph repositoryGraph;
+    private final RepositoryGraph repositoryGraph;
     private SetOfCommits preStoredBranch;
     private SetOfCommits commitsUnderLastCommon;
     private SetOfCommits lastCommonCommits;

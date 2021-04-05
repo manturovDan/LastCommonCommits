@@ -8,7 +8,7 @@ import java.util.AbstractMap;
 import java.util.List;
 
 public class DeepFirstSearchInRepo {
-    private SearchStorage storage;
+    private final SearchStorage storage;
     private HTTPGitHub HTTPInteraction;
 
     public DeepFirstSearchInRepo(HTTPGitHub HTTPInteraction) {

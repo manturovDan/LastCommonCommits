@@ -4,6 +4,9 @@ import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
 import lastCommonCommitsGitHub.HTTPInteraction.JSONHandler;
 import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 
+import java.util.AbstractMap;
+import java.util.List;
+
 public class DeepFirstSearchInRepo {
     private SearchStorage storage;
     private HTTPGitHub HTTPInteraction;
@@ -16,7 +19,7 @@ public class DeepFirstSearchInRepo {
     public void buildGitGraph(String branchName) {
         JSONHandler.JSONCommitParser commits = HTTPInteraction.getCommits(branchName);
         while (commits.hasNext()) {
-            String commit = commits.next();
+            AbstractMap.SimpleEntry<String, List<String>> commit = commits.next();
             System.out.println(commit);
         }
     }

@@ -5,11 +5,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.util.Iterator;
+import java.util.*;
 
 
 public class JSONHandler {
-    public static class JSONCommitParser implements Iterator<String> {
+    public static class JSONCommitParser implements Iterator<AbstractMap.SimpleEntry<String, List<String>>> {
         private int commitNum;
         private final JsonArray commitsArray;
 
@@ -19,13 +19,23 @@ public class JSONHandler {
             commitNum = 0;
         }
 
-        public String next() {
+        public AbstractMap.SimpleEntry<String, List<String>> next() {
             if (commitNum == commitsArray.size())
                 return null;
 
             JsonObject commit = (JsonObject) commitsArray.get(commitNum);
             commitNum++;
-            return commit.get("sha").getAsString();
+
+            String commitSha = commit.get("sha").getAsString();
+            List<String> parentsList = new ArrayList<>();
+
+            JsonArray parents = (JsonArray) commit.get("parents");
+            for (Object parentObj : parents) {
+                JsonObject parentConcrete = (JsonObject) parentObj;
+                parentsList.add(parentConcrete.get("sha").getAsString());
+            }
+
+            return new AbstractMap.SimpleEntry<String, List<String>>(commitSha, parentsList);
         }
 
         public boolean hasNext() {

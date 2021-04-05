@@ -2,6 +2,7 @@ package lastCommonCommitsGitHub.finder;
 
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHubMediator;
+import lastCommonCommitsGitHub.finder.search.DeepFirstSearchInRepo;
 import lastCommonCommitsGitHub.finder.storage.RepositoryGraph;
 
 import java.io.IOException;
@@ -11,7 +12,7 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     private String owner;
     private String repo;
     private String token;
-    private HTTPGitHubMediator HTTPInteraction;
+    private HTTPGitHub HTTPInteraction;
 
     public LastCommonCommitsFinderGitHub(String owner, String repo, String token) {
         this.owner = owner;
@@ -20,8 +21,9 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     }
 
     public void initialize() {
-        RepositoryGraph commits = new RepositoryGraph();
         HTTPInteraction = new HTTPGitHub(owner, repo, token);
+        long lastEventId = HTTPInteraction.lastEvent();
+        DeepFirstSearchInRepo search = new DeepFirstSearchInRepo(HTTPInteraction, lastEventId);
     }
 
     @Override

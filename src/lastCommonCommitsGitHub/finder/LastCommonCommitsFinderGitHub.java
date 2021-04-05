@@ -2,7 +2,7 @@ package lastCommonCommitsGitHub.finder;
 
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHubMediator;
-import lastCommonCommitsGitHub.finder.repo.RepositoryGraph;
+import lastCommonCommitsGitHub.finder.storage.RepositoryGraph;
 
 import java.io.IOException;
 import java.util.Collection;

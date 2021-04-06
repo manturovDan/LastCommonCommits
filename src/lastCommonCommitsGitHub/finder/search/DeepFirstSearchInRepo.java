@@ -2,10 +2,12 @@ package lastCommonCommitsGitHub.finder.search;
 
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
 import lastCommonCommitsGitHub.HTTPInteraction.JSONHandler;
+import lastCommonCommitsGitHub.finder.storage.SearchAction;
 import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 
 import java.util.AbstractMap;
 import java.util.List;
+//import java.util.function.Consumer;
 
 public class DeepFirstSearchInRepo {
     private final SearchStorage storage;
@@ -44,7 +46,7 @@ public class DeepFirstSearchInRepo {
     private void searchDeeper() {
         String currentCommit = storage.getDfsStack().pop();
 
-        System.out.println(currentCommit); //make action here
+        //action.accept(currentCommit);//make action here
 
         pushCommitsListInStack(storage.getRepositoryGraph().getParents(currentCommit));
     }

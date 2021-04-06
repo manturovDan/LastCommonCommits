@@ -9,15 +9,15 @@ public class DFSStack {
         dfsCommits = new ArrayDeque<>();
     }
 
-    void push(String commit) {
+    public void push(String commit) {
         dfsCommits.push(commit);
     }
 
-    String pop() {
+    public String pop() {
         return dfsCommits.pop();
     }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return dfsCommits.isEmpty();
     }
 }

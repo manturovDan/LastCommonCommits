@@ -23,7 +23,7 @@ public class RepositoryGraph {
         return new HashSet<>(commitGraph.keySet());
     }
 
-    List<String> getParents(String commit) {
+    public List<String> getParents(String commit) {
         return commitGraph.get(commit);
     }
 

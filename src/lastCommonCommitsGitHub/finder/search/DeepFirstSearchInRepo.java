@@ -2,12 +2,11 @@ package lastCommonCommitsGitHub.finder.search;
 
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
 import lastCommonCommitsGitHub.HTTPInteraction.JSONHandler;
-import lastCommonCommitsGitHub.finder.storage.SearchAction;
 import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 
 import java.util.AbstractMap;
 import java.util.List;
-//import java.util.function.Consumer;
+import java.util.function.Consumer;
 
 public class DeepFirstSearchInRepo {
     private final SearchStorage storage;
@@ -38,17 +37,37 @@ public class DeepFirstSearchInRepo {
 
         storage.getDfsStack().push(topBranchB);
 
+        searchDeeper(this::handleCommitAsPreStored);
+
+        System.out.println(storage.getLastCommonCommits());
+    }
+
+    private void searchDeeper(Consumer<String> action) {
         while (!storage.getDfsStack().isEmpty()) {
-            searchDeeper();
+            String currentCommit = storage.getDfsStack().pop();
+            action.accept(currentCommit);//make action here
         }
     }
 
-    private void searchDeeper() {
-        String currentCommit = storage.getDfsStack().pop();
+    private void handleCommitAsPreStored(String commit) {
+        if (storage.getPreStoredBranch().contains(commit)) {
+           if(!storage.getCommitsUnderLastCommon().contains(commit)) {
+               storage.getLastCommonCommits().add(commit);
+               searchDeeper(this::handleCommitAsCommon);
+           }
+        }
+        else {
+            pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
+        }
+    }
 
-        //action.accept(currentCommit);//make action here
+    private void handleCommitAsCommon(String commit) {
+        if (!storage.getCommitsUnderLastCommon().contains(commit)) {
+            storage.getCommitsUnderLastCommon().add(commit);
+            storage.getLastCommonCommits().remove(commit);
 
-        pushCommitsListInStack(storage.getRepositoryGraph().getParents(currentCommit));
+            pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
+        }
     }
 
     private void pushCommitsListInStack(List<String> commitsList) {

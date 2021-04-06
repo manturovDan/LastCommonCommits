@@ -39,4 +39,16 @@ public class SearchStorage {
     public RepositoryGraph getRepositoryGraph() {
         return repositoryGraph;
     }
+
+    public SetOfCommits getPreStoredBranch() {
+        return preStoredBranch;
+    }
+
+    public SetOfCommits getLastCommonCommits() {
+        return lastCommonCommits;
+    }
+
+    public SetOfCommits getCommitsUnderLastCommon() {
+        return commitsUnderLastCommon;
+    }
 }

@@ -34,6 +34,6 @@ public class DeepFirstSearchInRepo {
         storage.copyCommitsFromGraphToPreStoredBranch();
         String topBranchB = buildGitGraph(branchB);
 
-
+        storage.pushInStack(topBranchB);
     }
 }

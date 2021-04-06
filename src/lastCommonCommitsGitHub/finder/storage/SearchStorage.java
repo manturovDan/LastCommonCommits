@@ -6,9 +6,10 @@ import java.util.List;
 public class SearchStorage {
     private final RepositoryGraph repositoryGraph;
     private final SetOfCommits preStoredBranch;
-    private SetOfCommits commitsUnderLastCommon;
-    private SetOfCommits lastCommonCommits;
-    private String repo;
+    private final SetOfCommits commitsUnderLastCommon;
+    private final SetOfCommits lastCommonCommits;
+    private final DFSStack dfsStack;
+    private final String repo;
 
     public SearchStorage(String repo) {
         this.repo = repo;
@@ -16,6 +17,7 @@ public class SearchStorage {
         preStoredBranch = new SetOfCommits();
         commitsUnderLastCommon = new SetOfCommits();
         lastCommonCommits = new SetOfCommits();
+        dfsStack = new DFSStack();
     }
 
     public void addCommitInRepo(AbstractMap.SimpleEntry<String, List<String>> pairCommitParents) {
@@ -28,5 +30,9 @@ public class SearchStorage {
 
     public String presentRepoGraph() {
         return repositoryGraph.toString();
+    }
+
+    public void pushInStack(String commit) {
+        dfsStack.push(commit);
     }
 }

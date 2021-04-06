@@ -37,6 +37,7 @@ public class DeepFirstSearchInRepo {
 
         storage.getDfsStack().push(topBranchB);
 
+        System.out.println(storage.getPreStoredBranch());
         searchDeeper(this::handleCommitAsPreStored);
 
         System.out.println(storage.getLastCommonCommits());
@@ -51,10 +52,12 @@ public class DeepFirstSearchInRepo {
 
     private void handleCommitAsPreStored(String commit) {
         if (storage.getPreStoredBranch().contains(commit)) {
-           if(!storage.getCommitsUnderLastCommon().contains(commit)) {
-               storage.getLastCommonCommits().add(commit);
-               searchDeeper(this::handleCommitAsCommon);
-           }
+            if(!storage.getCommitsUnderLastCommon().contains(commit)) {
+                storage.getLastCommonCommits().add(commit);
+                //System.out.println(storage.getLastCommonCommits());
+                pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
+                searchDeeper(this::handleCommitAsCommon);
+            }
         }
         else {
             pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
@@ -64,10 +67,12 @@ public class DeepFirstSearchInRepo {
     private void handleCommitAsCommon(String commit) {
         if (!storage.getCommitsUnderLastCommon().contains(commit)) {
             storage.getCommitsUnderLastCommon().add(commit);
-            storage.getLastCommonCommits().remove(commit);
+            //storage.getLastCommonCommits().remove(commit);
 
-            pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
+            pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit)); //возврат в первую функцию, если нет родителей
         }
+
+        //возврат в первую функцию
     }
 
     private void pushCommitsListInStack(List<String> commitsList) {

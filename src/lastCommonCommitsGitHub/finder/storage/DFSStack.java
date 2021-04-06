@@ -11,10 +11,13 @@ public class DFSStack {
 
     public void push(String commit) {
         dfsCommits.push(commit);
+        //System.out.println(dfsCommits);
     }
 
     public String pop() {
-        return dfsCommits.pop();
+        String res = dfsCommits.pop();
+        //System.out.println(dfsCommits);
+        return res;
     }
 
     public boolean isEmpty() {

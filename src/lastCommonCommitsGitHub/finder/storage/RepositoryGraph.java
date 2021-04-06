@@ -23,6 +23,10 @@ public class RepositoryGraph {
         return new HashSet<>(commitGraph.keySet());
     }
 
+    List<String> getParents(String commit) {
+        return commitGraph.get(commit);
+    }
+
     @Override
     public String toString() {
         return commitGraph.toString();

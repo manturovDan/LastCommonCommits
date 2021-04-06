@@ -35,4 +35,16 @@ public class SearchStorage {
     public void pushInStack(String commit) {
         dfsStack.push(commit);
     }
+
+    public String popFromStack() {
+        return dfsStack.pop();
+    }
+
+    public boolean isStackEmpty() {
+        return dfsStack.isEmpty();
+    }
+
+    public List<String> getParents(String commit) {
+        return repositoryGraph.getParents(commit);
+    }
 }

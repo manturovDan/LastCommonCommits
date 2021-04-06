@@ -35,5 +35,25 @@ public class DeepFirstSearchInRepo {
         String topBranchB = buildGitGraph(branchB);
 
         storage.pushInStack(topBranchB);
+
+        while (searchDeeper()) {}
+    }
+
+    private boolean searchDeeper() {
+        if (storage.isStackEmpty())
+            return false;
+
+        String currentCommit = storage.popFromStack();
+
+        System.out.println(currentCommit);
+
+        pushCommitsListInStack(storage.getParents(currentCommit));
+        return true;
+    }
+
+    private void pushCommitsListInStack(List<String> commitsList) {
+        for (String commit : commitsList) {
+            storage.pushInStack(commit);
+        }
     }
 }

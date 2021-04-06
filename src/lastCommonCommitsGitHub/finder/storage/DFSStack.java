@@ -16,4 +16,8 @@ public class DFSStack {
     String pop() {
         return dfsCommits.pop();
     }
+
+    boolean isEmpty() {
+        return dfsCommits.isEmpty();
+    }
 }

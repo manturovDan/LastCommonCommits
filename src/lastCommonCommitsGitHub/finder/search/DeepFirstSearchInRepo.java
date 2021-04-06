@@ -7,6 +7,7 @@ import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class DeepFirstSearchInRepo {
     private final SearchStorage storage;
@@ -43,35 +44,51 @@ public class DeepFirstSearchInRepo {
         System.out.println(storage.getLastCommonCommits());
     }
 
-    private void searchDeeper(Consumer<String> action) {
+    private void searchDeeper(Function<String, Integer> action) {
         while (!storage.getDfsStack().isEmpty()) {
             String currentCommit = storage.getDfsStack().pop();
-            action.accept(currentCommit);//make action here
+            int nextAct = action.apply(currentCommit);//make action here
+            if (nextAct == 0) {
+                action = this::handleCommitAsPreStored;
+            }
+            else {
+                action = this::handleCommitAsCommon;
+            }
         }
     }
 
-    private void handleCommitAsPreStored(String commit) {
+    private Integer handleCommitAsPreStored(String commit) {
         if (storage.getPreStoredBranch().contains(commit)) {
             if(!storage.getCommitsUnderLastCommon().contains(commit)) {
                 storage.getLastCommonCommits().add(commit);
                 //System.out.println(storage.getLastCommonCommits());
                 pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
-                searchDeeper(this::handleCommitAsCommon);
+                return 1;
             }
         }
         else {
             pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
         }
+
+        return 0;
     }
 
-    private void handleCommitAsCommon(String commit) {
+    private Integer handleCommitAsCommon(String commit) {
         if (!storage.getCommitsUnderLastCommon().contains(commit)) {
             storage.getCommitsUnderLastCommon().add(commit);
-            //storage.getLastCommonCommits().remove(commit);
+            storage.getLastCommonCommits().remove(commit);
 
-            pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit)); //возврат в первую функцию, если нет родителей
+            List<String> parents = storage.getRepositoryGraph().getParents(commit);
+            if (parents.size() > 0) {
+                pushCommitsListInStack(parents); //возврат в первую функцию, если нет родителей
+                return 1;
+            }
+            else {
+                return 0;
+            }
         }
 
+        return 0;
         //возврат в первую функцию
     }
 

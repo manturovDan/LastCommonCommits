@@ -4,17 +4,17 @@ import lastCommonCommitsGitHub.UI.IOInteraction;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinder;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactory;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactoryGitHub;
-import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderGitHub;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class RepoInteraction {
-    private IOInteraction ui;
-    private InputStream is;
-    private PrintStream ps;
+    private final IOInteraction ui;
+    private final InputStream is;
+    private final PrintStream ps;
 
     public RepoInteraction(InputStream is, PrintStream ps) {
         this.is = is;
@@ -32,6 +32,10 @@ public class RepoInteraction {
             }
 
             retrieveBranches(scanner);
+            ps.println("Exit");
+        } catch (NoSuchElementException e) {
+            ps.println("Input error was occurred, try to restart program with correct Input Stream\nMore details:");
+            e.printStackTrace(ps);
         }
     }
 
@@ -46,7 +50,9 @@ public class RepoInteraction {
 
     private void retrieveBranches(Scanner scanner) {
         while (true) {
-            ui.findOutBranchesName(scanner);
+            boolean shouldContinueSearching = ui.findOutBranchesName(scanner);
+            if (!shouldContinueSearching)
+                return;
 
 
         }

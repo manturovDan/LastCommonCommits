@@ -26,7 +26,7 @@ public class IOInteraction {
     }
 
     private String typeSmtInvitation(String field) {
-        return "Type " + field + " (or '-' to cancel): ";
+        return "Type " + field + " (or '-' to go back): ";
     }
 
     private void printInvitation(String field) {
@@ -60,15 +60,19 @@ public class IOInteraction {
         return true;
     }
 
-    public void findOutBranchesName(Scanner scanner) {
+    public boolean findOutBranchesName(Scanner scanner) {
         currentBranchA = null;
         currentBranchB = null;
 
-        outputStream.println("Type name of branchA");
+        printInvitation("branchA");
         currentBranchA = scanner.nextLine();
+        if (!mayContinueInput(currentBranchA))
+            return false;
 
-        outputStream.println("Type name of branchB");
+        printInvitation("branchB");
         currentBranchB = scanner.nextLine();
+
+        return mayContinueInput(currentBranchB);
     }
 
     public String getOwner() {

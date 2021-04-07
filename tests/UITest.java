@@ -3,18 +3,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class UITest {
     @Test
     public void getRepoInfo() throws Exception {
-        IOInteraction ui = new IOInteraction(new FileInputStream("testResources/inputRepo1.txt"), new PrintStream(
+        InputStream is = new FileInputStream("testResources/inputRepo1.txt");
+        IOInteraction ui = new IOInteraction(is, new PrintStream(
                 new OutputStream() {
                     @Override
                     public void write(int b) throws IOException {}
                 }
         ));
 
-        ui.findOutGitHubRepositoryInfo();
+        ui.findOutGitHubRepositoryInfo(new Scanner(is));
         Assertions.assertEquals("OwnerName", ui.getOwner());
         Assertions.assertNotEquals("OwnerName1", ui.getOwner());
         Assertions.assertEquals("RepositoryName", ui.getRepo());
@@ -24,7 +26,8 @@ public class UITest {
 
     @Test
     public void getRepoInfoErr() throws Exception {
-        IOInteraction ui = new IOInteraction(new FileInputStream("testResources/inputRepo1.txt"), new PrintStream(
+        InputStream is = new FileInputStream("testResources/inputRepo1.txt");
+        IOInteraction ui = new IOInteraction(is, new PrintStream(
                 new OutputStream() {
                     @Override
                     public void write(int b) throws IOException {}
@@ -33,7 +36,7 @@ public class UITest {
 
         Assertions.assertThrows(RuntimeException.class, ui::getOwner);
 
-        ui.findOutGitHubRepositoryInfo();
+        ui.findOutGitHubRepositoryInfo(new Scanner(is));
         Assertions.assertEquals("OwnerName", ui.getOwner());
         Assertions.assertNotEquals("OwnerName1", ui.getOwner());
         Assertions.assertEquals("RepositoryName", ui.getRepo());
@@ -42,14 +45,15 @@ public class UITest {
 
     @Test
     public void emptyTokenTest() throws Exception {
-        IOInteraction ui = new IOInteraction(new FileInputStream("testResources/inputRepoEmpToken.txt"), new PrintStream(
+        InputStream is = new FileInputStream("testResources/inputRepoEmpToken.txt");
+        IOInteraction ui = new IOInteraction(is, new PrintStream(
                 new OutputStream() {
                     @Override
                     public void write(int b) throws IOException {}
                 }
         ));
 
-        ui.findOutGitHubRepositoryInfo();
+        ui.findOutGitHubRepositoryInfo(new Scanner(is));
         Assertions.assertEquals("OwnerName", ui.getOwner());
         Assertions.assertNotEquals("OwnerName1", ui.getOwner());
         Assertions.assertEquals("RepositoryName", ui.getRepo());

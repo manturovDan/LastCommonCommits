@@ -1,5 +1,6 @@
 package lastCommonCommitsGitHub.UI;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -12,6 +13,9 @@ public class IOInteraction {
     private String repo;
     private String token;
 
+    private String currentBranchA;
+    private String currentBranchB;
+
     public IOInteraction(InputStream is, PrintStream os) {
         inputStream = is;
         outputStream = os;
@@ -21,37 +25,79 @@ public class IOInteraction {
         this(System.in, System.out);
     }
 
-    public void findOutGitHubRepositoryInfo() throws IOException {
+    private String typeSmtInvitation(String field) {
+        return "Type " + field + " (or '-' to cancel): ";
+    }
+
+    private void printInvitation(String field) {
+        outputStream.println(typeSmtInvitation(field));
+    }
+
+    private boolean mayContinueInput(String received) {
+        return received.length() != 1 || received.charAt(0) != '-';
+    }
+
+    public boolean findOutGitHubRepositoryInfo(Scanner scanner) {
         outputStream.println("Hello, it is program for finding last common commits");
-        try (Scanner scanner = new Scanner(inputStream)) {
-            outputStream.println("Input OWNER:");
-            owner = scanner.nextLine();
 
-            outputStream.println("Input REPOSITORY name: ");
-            repo = scanner.nextLine();
+        printInvitation("Owner");
+        owner = scanner.nextLine();
+        if (!mayContinueInput(owner))
+            return false;
 
-            outputStream.println("Input TOKEN or empty line if it isn't necessary: ");
-            token = scanner.nextLine();
-        } catch (Exception e) {
-            throw new IOException("input error");
-        }
+        printInvitation("REPOSITORY NAME");
+        repo = scanner.nextLine();
+        if (!mayContinueInput(repo))
+            return false;
+
+        printInvitation("TOKEN or empty line if unnecessary");
+        token = scanner.nextLine();
+        if (!mayContinueInput(token))
+            return false;
+
+        outputStream.println("Information was received");
+
+        return true;
+    }
+
+    public void findOutBranchesName(Scanner scanner) {
+        currentBranchA = null;
+        currentBranchB = null;
+
+        outputStream.println("Type name of branchA");
+        currentBranchA = scanner.nextLine();
+
+        outputStream.println("Type name of branchB");
+        currentBranchB = scanner.nextLine();
     }
 
     public String getOwner() {
         if (owner == null)
-            throw new RuntimeException("Owner was not retrieved");
+            throw new NullPointerException("Owner was not retrieved");
         return owner;
     }
 
     public String getRepo() {
         if (repo == null)
-            throw new RuntimeException("Repo was not retrieved");
+            throw new NullPointerException("Repo was not retrieved");
         return repo;
     }
 
     public String getToken() {
         if (owner == null)
-            throw new RuntimeException("Token was not retrieved");
+            throw new NullPointerException("Token was not retrieved");
         return token;
+    }
+
+    public String getCurrentBranchA() {
+        if (currentBranchA == null)
+            throw new NullPointerException("Branch A was not retrieved");
+        return currentBranchA;
+    }
+
+    public String getCurrentBranchB() {
+        if (currentBranchB == null)
+            throw new NullPointerException("Branch A was not retrieved");
+        return currentBranchB;
     }
 }

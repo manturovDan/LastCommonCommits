@@ -53,6 +53,7 @@ public class DepthFirstSearchInRepo {
             storage.copyCommitsFromGraphToPreStoredBranch();
             topBranchB = buildGitGraph(branchB);
 
+            //TODO take last commits and check if there are another branches
             storage.getRepositoryGraph().setTopCommit(branchA, topBranchA);
             storage.getRepositoryGraph().setTopCommit(branchB, topBranchB);
 
@@ -87,6 +88,7 @@ public class DepthFirstSearchInRepo {
 
     private Function<String, Function> addCommitInPreStored(String commit) {
         storage.getPreStoredBranch().add(commit);
+        //TODO if exists log off
         return this::addCommitInPreStored;
     }
 
@@ -94,7 +96,6 @@ public class DepthFirstSearchInRepo {
         if (storage.getPreStoredBranch().contains(commit)) {
             if(!storage.getCommitsUnderLastCommon().contains(commit)) {
                 storage.getLastCommonCommits().add(commit);
-                //System.out.println(storage.getLastCommonCommits());
                 pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
                 return this::handleCommitAsCommon;
             }

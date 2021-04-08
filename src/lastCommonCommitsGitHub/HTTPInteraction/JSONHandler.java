@@ -1,6 +1,5 @@
 package lastCommonCommitsGitHub.HTTPInteraction;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -60,7 +59,4 @@ public class JSONHandler {
         return commit.get("sha").getAsString();
     }
 
-    public JSONCommitParser getCommits(String commitResponse) {
-        return new JSONCommitParser(commitResponse);
-    }
 }

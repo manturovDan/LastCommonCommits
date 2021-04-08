@@ -1,9 +1,8 @@
 package lastCommonCommitsGitHub.finder;
 
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
-import lastCommonCommitsGitHub.finder.search.DeepFirstSearchInRepo;
+import lastCommonCommitsGitHub.finder.search.DepthFirstSearchInRepo;
 
-import java.io.IOException;
 import java.util.Collection;
 
 public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
@@ -11,7 +10,7 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     private String repo;
     private String token;
     private HTTPGitHub HTTPInteraction;
-    private DeepFirstSearchInRepo search;
+    private DepthFirstSearchInRepo search;
 
     LastCommonCommitsFinderGitHub(String owner, String repo, String token) {
         this.owner = owner;
@@ -23,7 +22,7 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     @Override
     public Collection<String> findLastCommonCommits(String branchA, String branchB) {
         if (search == null)
-            search = new DeepFirstSearchInRepo(HTTPInteraction);
+            search = new DepthFirstSearchInRepo(HTTPInteraction);
 
         for (int attempt = 0; attempt < 5; ++attempt) {
             search.lastCommonCommits(branchA, branchB);

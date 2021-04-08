@@ -8,11 +8,11 @@ import java.util.AbstractMap;
 import java.util.List;
 import java.util.function.Function;
 
-public class DeepFirstSearchInRepo {
+public class DepthFirstSearchInRepo {
     private SearchStorage storage;
     private final HTTPGitHub HTTPInteraction;
 
-    public DeepFirstSearchInRepo(HTTPGitHub HTTPInteraction) {
+    public DepthFirstSearchInRepo(HTTPGitHub HTTPInteraction) {
         this.HTTPInteraction = HTTPInteraction;
         storage = new SearchStorage(HTTPInteraction.getRepo(), HTTPInteraction.lastEvent());
     }

@@ -6,10 +6,11 @@ import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 
 import java.util.AbstractMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class DeepFirstSearchInRepo {
-    private final SearchStorage storage;
+    private SearchStorage storage;
     private HTTPGitHub HTTPInteraction;
 
     public DeepFirstSearchInRepo(HTTPGitHub HTTPInteraction) {
@@ -31,49 +32,78 @@ public class DeepFirstSearchInRepo {
     }
 
     public void lastCommonCommits(String branchA, String branchB) {
-        //если обновился репозиторий, то пересоздаём граф, обновляем последний ивент
-        String topBranchA = buildGitGraph(branchA);
-        storage.copyCommitsFromGraphToPreStoredBranch();
-        String topBranchB = buildGitGraph(branchB);
+        long lastEventId = storage.getLastEvent();
+        if (HTTPInteraction.lastEvent() != lastEventId) {
+            storage = new SearchStorage(HTTPInteraction.getRepo(), lastEventId);
+        }
 
-        storage.getDfsStack().push(topBranchB);
+        String topBranchAInStorage = storage.getRepositoryGraph().getTopCommit(branchA);
+        String topBranchBInStorage = storage.getRepositoryGraph().getTopCommit(branchB);
 
-        System.out.println(storage.getPreStoredBranch());
-        searchDeeper(this::handleCommitAsPreStored);
+        if (topBranchAInStorage == null && topBranchBInStorage == null) {
+            String topBranchA = buildGitGraph(branchB);
+            storage.copyCommitsFromGraphToPreStoredBranch();
+            String topBranchB = buildGitGraph(branchB);
+
+            storage.getRepositoryGraph().setTopCommit(branchA, topBranchA);
+            storage.getRepositoryGraph().setTopCommit(branchB, topBranchB);
+
+            depthFastSearch(topBranchB, this::handleCommitAsPreStored);
+
+        }
+
+        if (topBranchBInStorage != null && topBranchAInStorage == null) {
+            String swapBranches = branchA;
+            branchA = branchB;
+            branchB = swapBranches;
+
+            topBranchAInStorage = topBranchBInStorage;
+            topBranchBInStorage = null;
+        }
+
+        depthFastSearch(topBranchAInStorage, this::addCommitInPreStored);
+        if (topBranchBInStorage == null) {
+            String topBranchB = buildGitGraph(branchB);
+            depthFastSearch(topBranchB, this::handleCommitAsPreStored);
+        }
+        else {
+            depthFastSearch(topBranchBInStorage, this::handleCommitAsPreStored);
+        }
 
         System.out.println(storage.getLastCommonCommits());
+
     }
 
-    private void searchDeeper(Function<String, Integer> action) {
+
+    private void searchDeeper(Function<String, Function> action) {
         while (!storage.getDfsStack().isEmpty()) {
             String currentCommit = storage.getDfsStack().pop();
-            int nextAct = action.apply(currentCommit);//make action here
-            if (nextAct == 0) {
-                action = this::handleCommitAsPreStored;
-            }
-            else {
-                action = this::handleCommitAsCommon;
-            }
+            action = action.apply(currentCommit);
         }
     }
 
-    private Integer handleCommitAsPreStored(String commit) {
+    private Function<String, Function> addCommitInPreStored(String commit) {
+        storage.getPreStoredBranch().add(commit);
+        return this::addCommitInPreStored;
+    }
+
+    private Function<String, Function> handleCommitAsPreStored(String commit) {
         if (storage.getPreStoredBranch().contains(commit)) {
             if(!storage.getCommitsUnderLastCommon().contains(commit)) {
                 storage.getLastCommonCommits().add(commit);
                 //System.out.println(storage.getLastCommonCommits());
                 pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
-                return 1;
+                return this::handleCommitAsCommon;
             }
         }
         else {
             pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
         }
 
-        return 0;
+        return this::handleCommitAsPreStored;
     }
 
-    private Integer handleCommitAsCommon(String commit) {
+    private Function<String, Function> handleCommitAsCommon(String commit) {
         if (!storage.getCommitsUnderLastCommon().contains(commit)) {
             storage.getCommitsUnderLastCommon().add(commit);
             storage.getLastCommonCommits().remove(commit);
@@ -81,15 +111,19 @@ public class DeepFirstSearchInRepo {
             List<String> parents = storage.getRepositoryGraph().getParents(commit);
             if (parents.size() > 0) {
                 pushCommitsListInStack(parents); //возврат в первую функцию, если нет родителей
-                return 1;
+                return this::handleCommitAsCommon;
             }
             else {
-                return 0;
+                return this::handleCommitAsPreStored;
             }
         }
 
-        return 0;
-        //возврат в первую функцию
+        return this::handleCommitAsPreStored;
+    }
+
+    private void depthFastSearch(String topCommit, Function<String, Function> action) {
+        storage.getDfsStack().push(topCommit);
+        searchDeeper(action);
     }
 
     private void pushCommitsListInStack(List<String> commitsList) {

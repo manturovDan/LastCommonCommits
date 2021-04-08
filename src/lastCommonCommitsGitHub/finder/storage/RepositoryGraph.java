@@ -3,6 +3,7 @@ package lastCommonCommitsGitHub.finder.storage;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 public class RepositoryGraph {
     private final HashMap<String, List<String>> commitGraph;
@@ -27,6 +28,10 @@ public class RepositoryGraph {
 
     public void setTopCommit(String branch, String commit) {
         branchTopCommit.put(branch, commit);
+    }
+
+    public String getTopCommit(String branch) {
+        return branchTopCommit.get(branch);
     }
 
     @Override

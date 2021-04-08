@@ -6,12 +6,11 @@ import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 
 import java.util.AbstractMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 public class DeepFirstSearchInRepo {
     private SearchStorage storage;
-    private HTTPGitHub HTTPInteraction;
+    private final HTTPGitHub HTTPInteraction;
 
     public DeepFirstSearchInRepo(HTTPGitHub HTTPInteraction) {
         this.HTTPInteraction = HTTPInteraction;
@@ -37,43 +36,47 @@ public class DeepFirstSearchInRepo {
             storage = new SearchStorage(HTTPInteraction.getRepo(), lastEventId);
         }
 
-        String topBranchAInStorage = storage.getRepositoryGraph().getTopCommit(branchA);
-        String topBranchBInStorage = storage.getRepositoryGraph().getTopCommit(branchB);
+        String topBranchA = storage.getRepositoryGraph().getTopCommit(branchA);
+        String topBranchB = storage.getRepositoryGraph().getTopCommit(branchB);
 
-        if (topBranchAInStorage == null && topBranchBInStorage == null) {
-            String topBranchA = buildGitGraph(branchB);
-            storage.copyCommitsFromGraphToPreStoredBranch();
-            String topBranchB = buildGitGraph(branchB);
-
-            storage.getRepositoryGraph().setTopCommit(branchA, topBranchA);
-            storage.getRepositoryGraph().setTopCommit(branchB, topBranchB);
-
-            depthFastSearch(topBranchB, this::handleCommitAsPreStored);
-
-        }
-
-        if (topBranchBInStorage != null && topBranchAInStorage == null) {
-            String swapBranches = branchA;
-            branchA = branchB;
-            branchB = swapBranches;
-
-            topBranchAInStorage = topBranchBInStorage;
-            topBranchBInStorage = null;
-        }
-
-        depthFastSearch(topBranchAInStorage, this::addCommitInPreStored);
-        if (topBranchBInStorage == null) {
-            String topBranchB = buildGitGraph(branchB);
-            depthFastSearch(topBranchB, this::handleCommitAsPreStored);
-        }
-        else {
-            depthFastSearch(topBranchBInStorage, this::handleCommitAsPreStored);
-        }
+        handleBranchesIfBothArentCached(branchA, topBranchA, branchB, topBranchB);
+        handleBranchesIfAtAtLeastOneIsCached(branchA, topBranchA, branchB, topBranchB);
 
         System.out.println(storage.getLastCommonCommits());
 
     }
 
+    private void handleBranchesIfBothArentCached(String branchA, String topBranchA,
+                                                 String branchB, String topBranchB) {
+        if (topBranchA == null && topBranchB == null) {
+            topBranchA = buildGitGraph(branchB);
+            storage.copyCommitsFromGraphToPreStoredBranch();
+            topBranchB = buildGitGraph(branchB);
+
+            storage.getRepositoryGraph().setTopCommit(branchA, topBranchA);
+            storage.getRepositoryGraph().setTopCommit(branchB, topBranchB);
+
+            depthFastSearch(topBranchB, this::handleCommitAsPreStored);
+        }
+    }
+
+    private void handleBranchesIfAtAtLeastOneIsCached(String branchA, String topBranchA,
+                                                      String branchB, String topBranchB) {
+        if (topBranchB != null && topBranchA == null) {
+            branchB = branchA;
+
+            topBranchA = topBranchB;
+            topBranchB = null;
+        }
+
+        depthFastSearch(topBranchA, this::addCommitInPreStored);
+
+        if (topBranchB == null) {
+            topBranchB = buildGitGraph(branchB);
+        }
+
+        depthFastSearch(topBranchB, this::handleCommitAsPreStored);
+    }
 
     private void searchDeeper(Function<String, Function> action) {
         while (!storage.getDfsStack().isEmpty()) {

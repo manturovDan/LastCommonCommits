@@ -10,9 +10,11 @@ public class SearchStorage {
     private final SetOfCommits lastCommonCommits;
     private final DFSStack dfsStack;
     private final String repo;
+    private final long lastEvent;
 
-    public SearchStorage(String repo) {
+    public SearchStorage(String repo, long lastEvent) {
         this.repo = repo;
+        this.lastEvent = lastEvent;
         repositoryGraph = new RepositoryGraph(repo);
         preStoredBranch = new SetOfCommits();
         commitsUnderLastCommon = new SetOfCommits();
@@ -50,5 +52,9 @@ public class SearchStorage {
 
     public SetOfCommits getCommitsUnderLastCommon() {
         return commitsUnderLastCommon;
+    }
+
+    public long getLastEvent() {
+        return lastEvent;
     }
 }

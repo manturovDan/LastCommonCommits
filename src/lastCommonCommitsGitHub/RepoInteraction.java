@@ -16,6 +16,7 @@ public class RepoInteraction {
     private final InputStream is;
     private final PrintStream ps;
     private LastCommonCommitsFinder finder;
+    private final LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
 
     public RepoInteraction(InputStream is, PrintStream ps) {
         this.is = is;
@@ -46,7 +47,6 @@ public class RepoInteraction {
         if (!getRepoSuccess)
             return null;
 
-        LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
         return factory.create(ui.getOwner(), ui.getRepo(), ui.getToken());
     }
 

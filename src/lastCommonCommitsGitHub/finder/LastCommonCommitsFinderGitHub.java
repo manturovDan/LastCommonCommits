@@ -11,6 +11,7 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     private String repo;
     private String token;
     private HTTPGitHub HTTPInteraction;
+    private DeepFirstSearchInRepo search;
 
     LastCommonCommitsFinderGitHub(String owner, String repo, String token) {
         this.owner = owner;
@@ -20,14 +21,14 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     }
 
     @Override
-    public Collection<String> findLastCommonCommits(String branchA, String branchB) throws IOException {
-        DeepFirstSearchInRepo search = new DeepFirstSearchInRepo(HTTPInteraction);
+    public Collection<String> findLastCommonCommits(String branchA, String branchB) {
+        if (search == null)
+            search = new DeepFirstSearchInRepo(HTTPInteraction);
 
         for (int attempt = 0; attempt < 5; ++attempt) {
-            long lastEventId = HTTPInteraction.lastEvent();
             search.lastCommonCommits(branchA, branchB);
 
-            if (lastEventId == HTTPInteraction.lastEvent())
+            if (search.getLastEventId() == HTTPInteraction.lastEvent())
                 break;
         }
 

@@ -3,7 +3,7 @@ package lastCommonCommitsGitHub.finder;
 import java.util.HashMap;
 
 public class LastCommonCommitsFinderFactoryGitHub implements LastCommonCommitsFinderFactory {
-    private HashMap<String, LastCommonCommitsFinder> findersHash = new HashMap<>();
+    private final HashMap<String, LastCommonCommitsFinder> findersHash = new HashMap<>();
 
     @Override
     public LastCommonCommitsFinder create(String owner, String repo, String token) {

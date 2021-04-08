@@ -6,7 +6,6 @@ import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 
 import java.util.AbstractMap;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class DeepFirstSearchInRepo {
@@ -15,7 +14,7 @@ public class DeepFirstSearchInRepo {
 
     public DeepFirstSearchInRepo(HTTPGitHub HTTPInteraction) {
         this.HTTPInteraction = HTTPInteraction;
-        storage = new SearchStorage(HTTPInteraction.getRepo());
+        storage = new SearchStorage(HTTPInteraction.getRepo(), HTTPInteraction.lastEvent());
     }
 
     public String buildGitGraph(String branchName) {
@@ -32,6 +31,7 @@ public class DeepFirstSearchInRepo {
     }
 
     public void lastCommonCommits(String branchA, String branchB) {
+        //если обновился репозиторий, то пересоздаём граф, обновляем последний ивент
         String topBranchA = buildGitGraph(branchA);
         storage.copyCommitsFromGraphToPreStoredBranch();
         String topBranchB = buildGitGraph(branchB);
@@ -96,5 +96,9 @@ public class DeepFirstSearchInRepo {
         for (String commit : commitsList) {
             storage.getDfsStack().push(commit);
         }
+    }
+
+    public long getLastEventId() {
+        return storage.getLastEvent();
     }
 }

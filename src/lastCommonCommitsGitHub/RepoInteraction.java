@@ -15,6 +15,7 @@ public class RepoInteraction {
     private final IOInteraction ui;
     private final InputStream is;
     private final PrintStream ps;
+    private LastCommonCommitsFinder finder;
 
     public RepoInteraction(InputStream is, PrintStream ps) {
         this.is = is;
@@ -24,15 +25,16 @@ public class RepoInteraction {
 
     public void interact() {
         try (Scanner scanner = new Scanner(is)) {
-            LastCommonCommitsFinder finder;
-            finder = retrieveFinder(scanner);
-            if (finder == null) {
-                ps.println("Cancel");
-                return;
-            }
+            ps.println("Hello, it is program for finding last common commits");
+            while (true) {
+                finder = retrieveFinder(scanner);
+                if (finder == null) {
+                    ps.println("Exit");
+                    return;
+                }
 
-            retrieveBranches(scanner);
-            ps.println("Exit");
+                retrieveBranches(scanner);
+            }
         } catch (NoSuchElementException e) {
             ps.println("Input error was occurred, try to restart program with correct Input Stream\nMore details:");
             e.printStackTrace(ps);
@@ -48,13 +50,21 @@ public class RepoInteraction {
         return factory.create(ui.getOwner(), ui.getRepo(), ui.getToken());
     }
 
-    private void retrieveBranches(Scanner scanner) {
+    private void retrieveBranches(Scanner scanner)  {
         while (true) {
             boolean shouldContinueSearching = ui.findOutBranchesName(scanner);
             if (!shouldContinueSearching)
                 return;
 
+            handleBranches();
+        }
+    }
 
+    private void handleBranches() {
+        try {
+            finder.findLastCommonCommits(ui.getCurrentBranchA(), ui.getCurrentBranchB());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

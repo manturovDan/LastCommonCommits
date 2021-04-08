@@ -38,7 +38,7 @@ public class IOInteraction {
     }
 
     public boolean findOutGitHubRepositoryInfo(Scanner scanner) {
-        outputStream.println("Hello, it is program for finding last common commits");
+        outputStream.println("Repository menu");
 
         printInvitation("Owner");
         owner = scanner.nextLine();
@@ -63,6 +63,8 @@ public class IOInteraction {
     public boolean findOutBranchesName(Scanner scanner) {
         currentBranchA = null;
         currentBranchB = null;
+
+        outputStream.println("Branches menu");
 
         printInvitation("branchA");
         currentBranchA = scanner.nextLine();

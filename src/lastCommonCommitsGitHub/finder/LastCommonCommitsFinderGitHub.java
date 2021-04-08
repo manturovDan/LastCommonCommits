@@ -1,9 +1,7 @@
 package lastCommonCommitsGitHub.finder;
 
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
-import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHubMediator;
 import lastCommonCommitsGitHub.finder.search.DeepFirstSearchInRepo;
-import lastCommonCommitsGitHub.finder.storage.RepositoryGraph;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -34,5 +32,9 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
         }
 
         return null;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

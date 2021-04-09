@@ -184,7 +184,7 @@ public class AlgorithmTests {
                 .contains("d9ac181925ef186b66efa4a82ba73e88ea3bc98a"));
     }
 
-    @Test
+    //@Test
     public void lastCommonCommitsABTest() throws Exception {
         HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", token);
         DepthFirstSearchInRepo dfs = new DepthFirstSearchInRepo(interaction);

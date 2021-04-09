@@ -13,7 +13,6 @@ public class HTTPGitHub implements HTTPGitHubMediator {
     private final String token;
     private final HttpClient client;
 
-    private BranchGetter branchGetter;
     private LastEventGetter lastEventGetter;
     private CommitsGetter commitsGetter;
     private JSONHandler jsonHandler;
@@ -29,7 +28,6 @@ public class HTTPGitHub implements HTTPGitHubMediator {
     }
 
     private void initializeMediatorComponents() {
-        branchGetter = new BranchGetter(this);
         lastEventGetter = new LastEventGetter(this);
         commitsGetter = new CommitsGetter(this);
         jsonHandler = new JSONHandler();
@@ -82,10 +80,6 @@ public class HTTPGitHub implements HTTPGitHubMediator {
             throw new IOException("GitHub server returned a error :(\n" + response.body());
 
         return response.body();
-    }
-
-    public String branch(String branchName) {
-        return branchGetter.retrieve(branchName);
     }
 
     public long lastEvent() {

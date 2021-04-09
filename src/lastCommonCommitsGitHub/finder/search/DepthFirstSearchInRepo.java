@@ -40,8 +40,8 @@ public class DepthFirstSearchInRepo {
         String topBranchA = storage.getRepositoryGraph().getTopCommit(branchA);
         String topBranchB = storage.getRepositoryGraph().getTopCommit(branchB);
 
-        handleBranchesIfBothArentCached(branchA, topBranchA, branchB, topBranchB);
         handleBranchesIfAtAtLeastOneIsCached(branchA, topBranchA, branchB, topBranchB);
+        handleBranchesIfBothArentCached(branchA, topBranchA, branchB, topBranchB);
 
         System.out.println(storage.getLastCommonCommits());
 
@@ -70,6 +70,9 @@ public class DepthFirstSearchInRepo {
             topBranchA = topBranchB;
             topBranchB = null;
         }
+
+        if (topBranchA == null)
+            return;
 
         depthFastSearch(topBranchA, this::addCommitInPreStored);
 

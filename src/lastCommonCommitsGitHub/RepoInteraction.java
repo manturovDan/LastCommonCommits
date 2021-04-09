@@ -64,7 +64,8 @@ public class RepoInteraction {
         try {
             finder.findLastCommonCommits(ui.getCurrentBranchA(), ui.getCurrentBranchB());
         } catch (IOException e) {
-            e.printStackTrace();
+            ps.println("Error while repository handling:");
+            ps.println(e);
         }
     }
 }

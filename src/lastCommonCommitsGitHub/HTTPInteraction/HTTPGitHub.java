@@ -82,11 +82,11 @@ public class HTTPGitHub implements HTTPGitHubMediator {
         return response.body();
     }
 
-    public long lastEvent() {
-        return lastEventGetter.retrieve();
+    public long lastEvent() throws IOException {
+        return lastEventGetter.retrieveLastEventId();
     }
 
-    public JSONHandler.JSONCommitsFeeder getCommits(String branchName) {
+    public JSONHandler.JSONCommitsFeeder getCommits(String branchName) throws IOException {
         return commitsGetter.retrieveCommits(branchName);
     }
 }

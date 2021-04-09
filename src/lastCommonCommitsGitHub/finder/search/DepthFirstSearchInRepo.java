@@ -4,6 +4,7 @@ import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
 import lastCommonCommitsGitHub.HTTPInteraction.JSONHandler;
 import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 
+import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.function.Function;
@@ -12,12 +13,12 @@ public class DepthFirstSearchInRepo {
     private SearchStorage storage;
     private final HTTPGitHub HTTPInteraction;
 
-    public DepthFirstSearchInRepo(HTTPGitHub HTTPInteraction) {
+    public DepthFirstSearchInRepo(HTTPGitHub HTTPInteraction) throws IOException {
         this.HTTPInteraction = HTTPInteraction;
         storage = new SearchStorage(HTTPInteraction.getRepo(), HTTPInteraction.lastEvent());
     }
 
-    public String buildGitGraph(String branchName) {
+    public String buildGitGraph(String branchName) throws IOException {
         JSONHandler.JSONCommitsFeeder commits = HTTPInteraction.getCommits(branchName);
         String topCommit = null;
         while (commits.hasNext()) {
@@ -30,7 +31,7 @@ public class DepthFirstSearchInRepo {
         return topCommit;
     }
 
-    public void lastCommonCommits(String branchA, String branchB) {
+    public void lastCommonCommits(String branchA, String branchB) throws IOException {
         long lastEventId = storage.getLastEvent();
         if (HTTPInteraction.lastEvent() != lastEventId) {
             storage = new SearchStorage(HTTPInteraction.getRepo(), lastEventId);
@@ -47,7 +48,7 @@ public class DepthFirstSearchInRepo {
     }
 
     private void handleBranchesIfBothArentCached(String branchA, String topBranchA,
-                                                 String branchB, String topBranchB) {
+                                                 String branchB, String topBranchB) throws IOException {
         if (topBranchA == null && topBranchB == null) {
             topBranchA = buildGitGraph(branchB);
             storage.copyCommitsFromGraphToPreStoredBranch();
@@ -62,7 +63,7 @@ public class DepthFirstSearchInRepo {
     }
 
     private void handleBranchesIfAtAtLeastOneIsCached(String branchA, String topBranchA,
-                                                      String branchB, String topBranchB) {
+                                                      String branchB, String topBranchB) throws IOException {
         if (topBranchB != null && topBranchA == null) {
             branchB = branchA;
 

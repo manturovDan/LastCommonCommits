@@ -11,5 +11,5 @@ public interface HTTPGitHubMediator {
     String getToken();
     JSONHandler getJSONHAndler();
     HttpRequest createRequestWithAuth(HttpRequest.Builder builder);
-    String send(HttpRequest request) throws IOException, InterruptedException;
+    String send(HttpRequest request) throws IOException;
 }

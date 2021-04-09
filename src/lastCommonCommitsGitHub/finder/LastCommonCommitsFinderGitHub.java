@@ -3,6 +3,7 @@ package lastCommonCommitsGitHub.finder;
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
 import lastCommonCommitsGitHub.finder.search.DepthFirstSearchInRepo;
 
+import java.io.IOException;
 import java.util.Collection;
 
 public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
@@ -20,7 +21,7 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     }
 
     @Override
-    public Collection<String> findLastCommonCommits(String branchA, String branchB) {
+    public Collection<String> findLastCommonCommits(String branchA, String branchB) throws IOException {
         if (search == null)
             search = new DepthFirstSearchInRepo(HTTPInteraction);
 

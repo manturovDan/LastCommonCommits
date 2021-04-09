@@ -1,5 +1,6 @@
 package lastCommonCommitsGitHub.HTTPInteraction;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpRequest;
 
@@ -10,21 +11,21 @@ public class CommitsGetter {
         this.mediator = mediator;
     }
 
-    public JSONHandler.JSONCommitsFeeder retrieveCommits(String branchName) {
-        HttpRequest request = createRequest(branchName);
+    public JSONHandler.JSONCommitsFeeder retrieveCommits(String branchName) throws IOException {
+        HttpRequest request = createCommitsRequest(branchName);
         String response = mediator.send(request);
 
         return new JSONHandler.JSONCommitsFeeder(response);
     }
 
-    private String constructURI(String branchName) {
+    private String constructCommitsURI(String branchName) {
         return HTTPGitHub.GITHUB_API_LINK + "repos/" + mediator.getOwner()
                 + "/" + mediator.getRepo() + "/commits?sha=" + branchName;
     }
 
-    private HttpRequest createRequest(String branchName) {
+    private HttpRequest createCommitsRequest(String branchName) {
         HttpRequest.Builder builder = HttpRequest.newBuilder()
-                .uri(URI.create(constructURI(branchName)));
+                .uri(URI.create(constructCommitsURI(branchName)));
 
         return mediator.createRequestWithAuth(builder);
     }

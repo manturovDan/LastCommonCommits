@@ -57,7 +57,7 @@ public class DepthFirstSearchInRepo {
     private void handleBranchesIfBothArentCached(String branchA, String topBranchA,
                                                  String branchB, String topBranchB) throws IOException {
         if (topBranchA == null && topBranchB == null) {
-            topBranchA = buildGitGraph(branchB);
+            topBranchA = buildGitGraph(branchA);
             storage.copyCommitsFromGraphToPreStoredBranch();
             topBranchB = buildGitGraph(branchB);
 

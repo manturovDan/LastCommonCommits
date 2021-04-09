@@ -26,7 +26,7 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
         if (search == null)
             search = new DepthFirstSearchInRepo(HTTPInteraction);
 
-        Collection<String> result = null;
+        Collection<String> result;
 
         for (int attempt = 0; attempt < attemptsCount; ++attempt) {
             result = search.lastCommonCommits(branchA, branchB);

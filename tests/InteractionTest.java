@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.util.Scanner;
 
-public class UITest {
+public class InteractionTest {
     @Test
     public void getRepoInfo() throws Exception {
-        InputStream is = new FileInputStream("testResources/inputRepo1.txt");
+        InputStream is = new FileInputStream("tests/testResources/inputRepo1.txt");
         IOInteraction ui = new IOInteraction(is, new PrintStream(
                 new OutputStream() {
                     @Override
@@ -26,7 +26,7 @@ public class UITest {
 
     @Test
     public void getRepoInfoErr() throws Exception {
-        InputStream is = new FileInputStream("testResources/inputRepo1.txt");
+        InputStream is = new FileInputStream("tests/testResources/inputRepo1.txt");
         IOInteraction ui = new IOInteraction(is, new PrintStream(
                 new OutputStream() {
                     @Override
@@ -45,7 +45,7 @@ public class UITest {
 
     @Test
     public void emptyTokenTest() throws Exception {
-        InputStream is = new FileInputStream("testResources/inputRepoEmpToken.txt");
+        InputStream is = new FileInputStream("tests/testResources/inputRepoEmpToken.txt");
         IOInteraction ui = new IOInteraction(is, new PrintStream(
                 new OutputStream() {
                     @Override

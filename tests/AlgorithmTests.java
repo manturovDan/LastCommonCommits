@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class AlgorithmTests {
-    static final String token = "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";
+    static final String token = "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";
 
     private SearchStorage getStorageFromDFS(DepthFirstSearchInRepo dfs) throws Exception {
         Field storageField = DepthFirstSearchInRepo.class.getDeclaredField("storage");

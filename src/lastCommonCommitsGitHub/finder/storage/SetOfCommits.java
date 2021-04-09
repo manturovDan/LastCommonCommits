@@ -25,6 +25,10 @@ public class SetOfCommits {
         return commitsSet.remove(commit);
     }
 
+    public void clear() {
+        commitsSet.clear();
+    }
+
     @Override
     public String toString() {
         return commitsSet.toString();

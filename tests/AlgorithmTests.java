@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class AlgorithmTests {
-    static final String token = "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";
+    static final String token = "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";
 
     private SearchStorage getStorageFromDFS(DepthFirstSearchInRepo dfs) throws Exception {
         Field storageField = DepthFirstSearchInRepo.class.getDeclaredField("storage");
@@ -47,7 +47,7 @@ public class AlgorithmTests {
         return (HashSet<String>) setField.get(set);
     }
 
-    public void cross3BCCommonCommits(HashMap<String, List<String>> graph) throws Exception {
+    public void cross3BCCommonCommits(HashMap<String, List<String>> graph) {
         Assertions.assertEquals(graph.get("3aab5282d567ed69daaec373e7cc5bc1985015ef").size(), 3);
         Assertions.assertTrue(graph.get("3aab5282d567ed69daaec373e7cc5bc1985015ef")
                 .contains("615ba764d7ce72e496324b28dab880a6fed56455"));

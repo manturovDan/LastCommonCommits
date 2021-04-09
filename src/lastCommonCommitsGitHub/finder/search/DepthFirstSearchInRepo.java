@@ -45,6 +45,13 @@ public class DepthFirstSearchInRepo {
 
         System.out.println(storage.getLastCommonCommits());
 
+        clearIntermediateData();
+    }
+
+    private void clearIntermediateData() {
+        storage.getPreStoredBranch().clear();
+        storage.getCommitsUnderLastCommon().clear();
+        storage.getLastCommonCommits().clear();
     }
 
     private void handleBranchesIfBothArentCached(String branchA, String topBranchA,

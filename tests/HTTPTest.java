@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class HTTPTest {
-    @Test
+    /*@Test
     public void createRequestTest() {
         HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", "");
         Assertions.assertEquals("84e222f75a5b37b63602abcb2b46f9984093d3d7", interaction.branch("A"));
-    }
+    }*/
 
     @Test
     public void lastEventTest() {

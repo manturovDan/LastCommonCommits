@@ -1,5 +1,6 @@
 package lastCommonCommitsGitHub.HTTPInteraction;
 
+import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -69,9 +70,18 @@ public class HTTPGitHub implements HTTPGitHubMediator {
     }
 
     @Override
-    public String send(HttpRequest request) {
-        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body).join();
+    public String send(HttpRequest request) throws IOException {
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (InterruptedException e) {
+            throw new IOException("Error in sending request to GitHub server");
+        }
+
+        if (response.statusCode() / 100 != 2)
+            throw new IOException("GitHub server returned a error :(\n" + response.body());
+
+        return response.body();
     }
 
     public String branch(String branchName) {
@@ -83,6 +93,6 @@ public class HTTPGitHub implements HTTPGitHubMediator {
     }
 
     public JSONHandler.JSONCommitsFeeder getCommits(String branchName) {
-        return commitsGetter.retrieve(branchName);
+        return commitsGetter.retrieveCommits(branchName);
     }
 }

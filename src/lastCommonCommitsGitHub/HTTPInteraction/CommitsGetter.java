@@ -10,7 +10,7 @@ public class CommitsGetter {
         this.mediator = mediator;
     }
 
-    public JSONHandler.JSONCommitsFeeder retrieve(String branchName) {
+    public JSONHandler.JSONCommitsFeeder retrieveCommits(String branchName) {
         HttpRequest request = createRequest(branchName);
         String response = mediator.send(request);
 

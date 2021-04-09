@@ -18,7 +18,7 @@ public class DepthFirstSearchInRepo {
     }
 
     public String buildGitGraph(String branchName) {
-        JSONHandler.JSONCommitParser commits = HTTPInteraction.getCommits(branchName);
+        JSONHandler.JSONCommitsFeeder commits = HTTPInteraction.getCommits(branchName);
         String topCommit = null;
         while (commits.hasNext()) {
             AbstractMap.SimpleEntry<String, List<String>> commit = commits.next();

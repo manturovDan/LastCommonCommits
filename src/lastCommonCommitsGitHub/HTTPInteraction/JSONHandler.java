@@ -1,62 +1,55 @@
 package lastCommonCommitsGitHub.HTTPInteraction;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.util.*;
-
+import org.json.*;
 
 public class JSONHandler {
-    public static class JSONCommitParser implements Iterator<AbstractMap.SimpleEntry<String, List<String>>> {
+    public static class JSONCommitsFeeder implements Iterator<AbstractMap.SimpleEntry<String, List<String>>> {
         private int commitNum;
-        private final JsonArray commitsArray;
+        private final JSONArray commitsArray;
 
-        JSONCommitParser(String response) {
-            Object obj = new JsonParser().parse(response);
-            commitsArray = (JsonArray) obj;
+        JSONCommitsFeeder(String response) {
+            commitsArray = new JSONArray(response);
             commitNum = 0;
         }
 
         public AbstractMap.SimpleEntry<String, List<String>> next() {
-            if (commitNum == commitsArray.size())
+            if (commitNum == commitsArray.length())
                 return null;
 
-            JsonObject commit = (JsonObject) commitsArray.get(commitNum);
+            JSONObject commit = (JSONObject) commitsArray.get(commitNum);
             commitNum++;
 
-            String commitSha = commit.get("sha").getAsString();
+            String commitSha = commit.getString("sha");
             List<String> parentsList = new ArrayList<>();
 
-            JsonArray parents = (JsonArray) commit.get("parents");
+            JSONArray parents = (JSONArray) commit.get("parents");
             for (Object parentObj : parents) {
-                JsonObject parentConcrete = (JsonObject) parentObj;
-                parentsList.add(parentConcrete.get("sha").getAsString());
+                JSONObject parentConcrete = (JSONObject) parentObj;
+                parentsList.add(parentConcrete.getString("sha"));
             }
 
-            return new AbstractMap.SimpleEntry<String, List<String>>(commitSha, parentsList);
+            return new AbstractMap.SimpleEntry<>(commitSha, parentsList);
         }
 
         public boolean hasNext() {
-            return commitNum != commitsArray.size();
+            return commitNum != commitsArray.length();
         }
     }
 
     public long lastEventId(String eventsResponse) {
-        Object obj = new JsonParser().parse(eventsResponse);
-        JsonArray eventsArray = (JsonArray) obj;
-        if (eventsArray.size() == 0) {
+        JSONArray eventsArray = new JSONArray(eventsResponse);
+        if (eventsArray.length() == 0) {
             return 0;
         }
-        JsonObject lastEvent = (JsonObject) eventsArray.get(0);
-        return lastEvent.get("id").getAsLong();
+        JSONObject lastEvent = (JSONObject) eventsArray.get(0);
+        return lastEvent.getLong("id");
     }
 
     public String getBranchCommit(String branchResponse) {
-        Object obj = new JsonParser().parse(branchResponse);
-        JsonObject branch = (JsonObject) obj;
-        JsonObject commit = (JsonObject) branch.get("commit");
-        return commit.get("sha").getAsString();
+        JSONObject branch = new JSONObject(branchResponse);
+        JSONObject commit = (JSONObject) branch.get("commit");
+        return commit.getString("sha");
     }
 
 }

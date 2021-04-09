@@ -1,5 +1,4 @@
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
-import lastCommonCommitsGitHub.finder.search.DepthFirstSearchInRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,8 @@
 package lastCommonCommitsGitHub.finder.storage;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class SetOfCommits {
     private HashSet<String> commitsSet;
@@ -23,6 +25,10 @@ public class SetOfCommits {
 
     public boolean remove(String commit) {
         return commitsSet.remove(commit);
+    }
+
+    public List<String> getList() {
+        return new ArrayList<>(commitsSet);
     }
 
     public void clear() {

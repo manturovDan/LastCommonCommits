@@ -7,11 +7,12 @@ import java.io.IOException;
 import java.util.Collection;
 
 public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
-    private String owner;
-    private String repo;
+    private final String owner;
+    private final String repo;
     private String token;
-    private HTTPGitHub HTTPInteraction;
+    private final HTTPGitHub HTTPInteraction;
     private DepthFirstSearchInRepo search;
+    private static final int attemptsCount = 5;
 
     LastCommonCommitsFinderGitHub(String owner, String repo, String token) {
         this.owner = owner;
@@ -25,14 +26,16 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
         if (search == null)
             search = new DepthFirstSearchInRepo(HTTPInteraction);
 
-        for (int attempt = 0; attempt < 5; ++attempt) {
-            search.lastCommonCommits(branchA, branchB);
+        Collection<String> result = null;
+
+        for (int attempt = 0; attempt < attemptsCount; ++attempt) {
+            result = search.lastCommonCommits(branchA, branchB);
 
             if (search.getLastEventId() == HTTPInteraction.lastEvent())
-                break;
+                return result;
         }
 
-        return null;
+        throw new IOException("Failed to get information from repository for " + attemptsCount + " times due to remote update");
     }
 
     public void setToken(String token) {

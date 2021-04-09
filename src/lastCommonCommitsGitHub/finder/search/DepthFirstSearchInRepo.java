@@ -6,6 +6,7 @@ import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 
 import java.io.IOException;
 import java.util.AbstractMap;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
@@ -31,7 +32,7 @@ public class DepthFirstSearchInRepo {
         return topCommit;
     }
 
-    public void lastCommonCommits(String branchA, String branchB) throws IOException {
+    public Collection<String> lastCommonCommits(String branchA, String branchB) throws IOException {
         long lastEventId = storage.getLastEvent();
         if (HTTPInteraction.lastEvent() != lastEventId) {
             storage = new SearchStorage(HTTPInteraction.getRepo(), lastEventId);
@@ -43,9 +44,11 @@ public class DepthFirstSearchInRepo {
         handleBranchesIfAtAtLeastOneIsCached(branchA, topBranchA, branchB, topBranchB);
         handleBranchesIfBothArentCached(branchA, topBranchA, branchB, topBranchB);
 
-        System.out.println(storage.getLastCommonCommits());
+        Collection<String> lastCommonCommits = storage.getLastCommonCommits().getList();
 
         clearIntermediateData();
+
+        return lastCommonCommits;
     }
 
     private void clearIntermediateData() {

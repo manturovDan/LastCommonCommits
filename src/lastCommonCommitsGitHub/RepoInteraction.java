@@ -8,6 +8,7 @@ import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactoryGitHub;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -62,10 +63,18 @@ public class RepoInteraction {
 
     private void handleBranches() {
         try {
-            finder.findLastCommonCommits(ui.getCurrentBranchA(), ui.getCurrentBranchB());
+            Collection<String> result = finder.findLastCommonCommits(ui.getCurrentBranchA(), ui.getCurrentBranchB());
+            printResult(result);
         } catch (IOException e) {
             ps.println("Error while repository handling:");
             ps.println(e);
+        }
+    }
+
+    private void printResult(Collection<String> res) {
+        ps.println("Result (" + res.size() + "):");
+        for (String commit : res) {
+            ps.println(commit);
         }
     }
 }

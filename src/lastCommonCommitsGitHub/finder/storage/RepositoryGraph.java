@@ -3,13 +3,12 @@ package lastCommonCommitsGitHub.finder.storage;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 public class RepositoryGraph {
     private final HashMap<String, List<String>> commitGraph;
     private final HashMap<String, String> branchTopCommit;
 
-    public RepositoryGraph(String repo) {
+    public RepositoryGraph() {
         commitGraph = new HashMap<>();
         branchTopCommit = new HashMap<>();
     }

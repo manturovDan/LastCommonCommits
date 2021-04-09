@@ -15,7 +15,7 @@ public class SearchStorage {
     public SearchStorage(String repo, long lastEvent) {
         this.repo = repo;
         this.lastEvent = lastEvent;
-        repositoryGraph = new RepositoryGraph(repo);
+        repositoryGraph = new RepositoryGraph();
         preStoredBranch = new SetOfCommits();
         commitsUnderLastCommon = new SetOfCommits();
         lastCommonCommits = new SetOfCommits();
@@ -56,5 +56,9 @@ public class SearchStorage {
 
     public long getLastEvent() {
         return lastEvent;
+    }
+
+    public String getRepo() {
+        return repo;
     }
 }

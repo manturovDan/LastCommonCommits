@@ -33,6 +33,11 @@ public class RepositoryGraph {
         return commitGraph.containsKey(commit);
     }
 
+    public void clear() {
+        commitGraph.clear();
+        branchTopCommit.clear();
+    }
+
     @Override
     public String toString() {
         return commitGraph.toString();

@@ -39,7 +39,7 @@ public class DepthFirstSearchInRepo {
         long lastEventIdInStorage = storage.getLastEvent();
         long lastEventIdInRemote = HTTPInteraction.lastEvent();
         if (lastEventIdInRemote != lastEventIdInStorage) {
-            //TODO help GC
+            storage.getRepositoryGraph().clear();
             storage = new SearchStorage(HTTPInteraction.getRepo(), lastEventIdInRemote);
         }
 
@@ -106,7 +106,6 @@ public class DepthFirstSearchInRepo {
 
     private DFSAction addCommitInPreStored(String commit) {
         storage.getPreStoredBranch().add(commit);
-        //TODO if exists log off
         pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
         return this::addCommitInPreStored;
     }

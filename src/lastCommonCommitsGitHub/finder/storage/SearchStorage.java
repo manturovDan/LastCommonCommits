@@ -8,6 +8,7 @@ public class SearchStorage {
     private final SetOfCommits preStoredBranch;
     private final SetOfCommits commitsUnderLastCommon;
     private final SetOfCommits lastCommonCommits;
+    private final SetOfCommits commitsPreliminarilyUnderLastCommon;
     private final DFSStack dfsStack;
     private final String repo;
     private final long lastEvent;
@@ -19,6 +20,7 @@ public class SearchStorage {
         preStoredBranch = new SetOfCommits();
         commitsUnderLastCommon = new SetOfCommits();
         lastCommonCommits = new SetOfCommits();
+        commitsPreliminarilyUnderLastCommon = new SetOfCommits();
         dfsStack = new DFSStack();
     }
 
@@ -52,6 +54,10 @@ public class SearchStorage {
 
     public SetOfCommits getCommitsUnderLastCommon() {
         return commitsUnderLastCommon;
+    }
+
+    public SetOfCommits getCommitsPreliminarilyUnderLastCommon() {
+        return commitsPreliminarilyUnderLastCommon;
     }
 
     public long getLastEvent() {

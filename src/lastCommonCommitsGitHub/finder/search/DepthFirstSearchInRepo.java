@@ -51,10 +51,12 @@ public class DepthFirstSearchInRepo {
         return lastCommonCommits;
     }
 
+    //TODO move to storage class
     private void clearIntermediateData() {
         storage.getPreStoredBranch().clear();
         storage.getCommitsUnderLastCommon().clear();
         storage.getLastCommonCommits().clear();
+        storage.getCommitsPreliminarilyUnderLastCommon().clear();
     }
 
     private void handleBranchesIfBothArentCached(String branchA, String topBranchA,
@@ -69,7 +71,7 @@ public class DepthFirstSearchInRepo {
             storage.getRepositoryGraph().setTopCommit(branchA, topBranchA);
             storage.getRepositoryGraph().setTopCommit(branchB, topBranchB);
 
-            depthFastSearch(topBranchB, this::handleCommitAsPreStored);
+            depthFastSearch(topBranchB, this::handleCommitAsPotentiallyPreStored);
         }
     }
 
@@ -91,7 +93,7 @@ public class DepthFirstSearchInRepo {
             topBranchB = buildGitGraph(branchB);
         }
 
-        depthFastSearch(topBranchB, this::handleCommitAsPreStored);
+        depthFastSearch(topBranchB, this::handleCommitAsPotentiallyPreStored);
     }
 
     private void searchDeeper(Function<String, Function> action) {
@@ -108,11 +110,13 @@ public class DepthFirstSearchInRepo {
         return this::addCommitInPreStored;
     }
 
-    private Function<String, Function> handleCommitAsPreStored(String commit) {
+    private Function<String, Function> handleCommitAsPotentiallyPreStored(String commit) {
         if (storage.getPreStoredBranch().contains(commit)) {
             if(!storage.getCommitsUnderLastCommon().contains(commit)) {
                 storage.getLastCommonCommits().add(commit);
-                pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
+                List<String> parents = storage.getRepositoryGraph().getParents(commit);
+                pushCommitsListInStack(parents);
+                markCommitsAsPreliminarilyUnderLastCommonCommits(parents);
                 return this::handleCommitAsCommon;
             }
         }
@@ -120,7 +124,7 @@ public class DepthFirstSearchInRepo {
             pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
         }
 
-        return this::handleCommitAsPreStored;
+        return this::handleCommitAsPotentiallyPreStored;
     }
 
     private Function<String, Function> handleCommitAsCommon(String commit) {
@@ -130,15 +134,16 @@ public class DepthFirstSearchInRepo {
 
             List<String> parents = storage.getRepositoryGraph().getParents(commit);
             if (parents.size() > 0) {
-                pushCommitsListInStack(parents); //возврат в первую функцию, если нет родителей
+                pushCommitsListInStack(parents);
+                markCommitsAsPreliminarilyUnderLastCommonCommits(parents);
                 return this::handleCommitAsCommon;
-            }
-            else {
-                return this::handleCommitAsPreStored;
             }
         }
 
-        return this::handleCommitAsPreStored;
+        if (storage.getDfsStack().isEmpty() ||
+                storage.getCommitsPreliminarilyUnderLastCommon().contains(storage.getDfsStack().getTop()))
+            return this::handleCommitAsCommon;
+        return this::handleCommitAsPotentiallyPreStored; //bug
     }
 
     private void depthFastSearch(String topCommit, Function<String, Function> action) {
@@ -149,6 +154,12 @@ public class DepthFirstSearchInRepo {
     private void pushCommitsListInStack(List<String> commitsList) {
         for (String commit : commitsList) {
             storage.getDfsStack().push(commit);
+        }
+    }
+
+    private void markCommitsAsPreliminarilyUnderLastCommonCommits(List<String> commitsPreliminarilyUnderLastCommon) {
+        for (String commit : commitsPreliminarilyUnderLastCommon) {
+            storage.getCommitsPreliminarilyUnderLastCommon().add(commit);
         }
     }
 

@@ -20,6 +20,10 @@ public class DFSStack {
         return res;
     }
 
+    public String getTop() {
+        return dfsCommits.getFirst();
+    }
+
     public boolean isEmpty() {
         return dfsCommits.isEmpty();
     }

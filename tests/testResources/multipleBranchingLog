@@ -1,0 +1,169 @@
+*   commit a9fc24488d47058d30f38947de6e91e6ccbab707 (origin/branch3)
+*   commit a9fc24488d47058d30f38947de6e91e6ccbab707 (origin/branch3)
+|\  Merge: 0839fa2 ef29a0f
+| | Author: Danila Manturov <manturov.dan@mail.ru>
+| | Date:   Fri Apr 9 19:59:27 2021 +0300
+| |
+| |     Merge branch 'branch9' into branch3
+| |
+| * commit ef29a0feeae4e172af0a6e54e556b2679878a0f3 (origin/branch9)
+| | Author: Danila Manturov <manturov.dan@mail.ru>
+| | Date:   Fri Apr 9 19:57:23 2021 +0300
+| |
+| |     raise conflict
+| |
+| *---.   commit 919b17d71f23d5e530876740951643e91928d9af (origin/branch12, origin/branch11, origin/branch10)
+| |\ \ \  Merge: 7b82879 d9be84d 467f407 c8fe81f
+| | | | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | | Date:   Fri Apr 9 19:48:20 2021 +0300
+| | | | |
+| | | | |     Merge branches 'branch9', 'branch10' and 'branch11' into branch12
+| | | | |
+| | | | * commit c8fe81f3dc8b3e58c385f469360b35c7ea5a5086
+| | | | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | | Date:   Fri Apr 9 19:47:00 2021 +0300
+| | | | |
+| | | | |     br 11
+| | | | |
+| | * | | commit d9be84da8840193844093ac2368ca696ad552fe0
+| | | |/  Author: Danila Manturov <manturov.dan@mail.ru>
+| | |/|   Date:   Fri Apr 9 19:42:57 2021 +0300
+| | | |
+| | | |       diff br 9
+| | | |
+* | | | commit 0839fa212e408910382373231f33cb6a050838d9
+| | | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | Date:   Fri Apr 9 19:59:19 2021 +0300
+| | | |
+| | | |     created emp file
+| | | |
+| | | | *   commit 1959ab1f55a31c630f7d86227f2db73c04240355 (origin/branch14)
+| | | | |\  Merge: a064f9d 2fe1031
+| | | | | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | | | Date:   Fri Apr 9 19:55:00 2021 +0300
+| | | | | |
+| | | | | |     Merge branch 'branch8' into branch14
+| | | | | |
+| | | | | * commit 2fe1031a745520999a636e8708ee12992bc0ab98 (origin/branch8)
+| | | | | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | | | Date:   Fri Apr 9 19:39:02 2021 +0300
+| | | | | |
+| | | | | |     2nd diff file
+| | | | | |
+| | | | * | commit a064f9dc6ae4bb146183c5ff6e846968f55cb654
+| | | | | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | | | Date:   Fri Apr 9 19:54:20 2021 +0300
+| | | | | |
+| | | | | |     added diff2 too
+| | | | | |
+| | | | * | commit c5fcf60049b277ced535b9f22caaaa175951c3d7
+| | |_|/| | Merge: 7b82879 467f407
+| |/| |/ /  Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | |   Date:   Fri Apr 9 19:52:36 2021 +0300
+| | | | |
+| | | | |       Merge branch 'branch13' into branch14
+| | | | |
+| | | * | commit 467f407c39fa220b0b2c51cb448a57d2c24e760e (origin/branch13)
+| | |/ /  Author: Danila Manturov <manturov.dan@mail.ru>
+| | | |   Date:   Fri Apr 9 19:46:13 2021 +0300
+| | | |
+| | | |       br10
+| | | |
+| * | | commit 7b828798bd516e3b41fbc7dc5cedd1eac5d22f9b
+| |/ /  Author: Danila Manturov <manturov.dan@mail.ru>
+| | |   Date:   Fri Apr 9 19:47:45 2021 +0300
+| | |
+| | |       br12
+| | |
+| * | commit 1be2679e6a76ee94e90863f5562ddb1fd023765b
+| | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | Date:   Fri Apr 9 19:42:23 2021 +0300
+| | |
+| | |     added diff42
+| | |
+| | | *   commit 7c09e17367b77306c39a3bcba75f9a364b58a1d8 (origin/branch6)
+| | | |\  Merge: 05e7f9b 882b0f6
+| | | | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | | Date:   Fri Apr 9 19:36:27 2021 +0300
+| | | | |
+| | | | |     Merge branch 'branch7' into branch6
+| | | | |
+| | | | * commit 882b0f69f0e9bead4cedf9126b8b500980aa8b38 (origin/branch7)
+| | | | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | | Date:   Fri Apr 9 19:35:19 2021 +0300
+| | | | |
+| | | | |     add diff
+| | | | |
+| | | | * commit 3bf688443f763bacd6956a494f4c20a6710858ca
+| | | |/  Author: Danila Manturov <manturov.dan@mail.ru>
+| | |/|   Date:   Fri Apr 9 19:34:44 2021 +0300
+| | | |
+| | | |       added another diff1
+| | | |
+| | | * commit 05e7f9b03a24241bd938b26c0f8d08d76df534cf
+| | | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | Date:   Fri Apr 9 19:33:12 2021 +0300
+| | | |
+| | | |     diff commit
+| | | |
+| | | *-.   commit 17c68cc1b99a8e68d08a0e21abe87603f32a94b1 (origin/branch5)
+| | | |\ \  Merge: e1345a2 5c0e4e8 161979a
+| | | | | | Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | | | Date:   Fri Apr 9 19:01:25 2021 +0300
+| | | | | |
+| | | | | |     Merge branches 'branch4' and 'branch5' into branch6
+| | | | | |
+| | | | | | *   commit 6f0c290150411b021da56bfc64c381192207f83a (origin/branch4)
+| | | | |_|/|\  Merge: e1345a2 5c0e4e8 161979a
+| | | |/| |/ /  Author: Danila Manturov <manturov.dan@mail.ru>
+| | | | |/| /   Date:   Fri Apr 9 19:01:25 2021 +0300
+| | | | | |/
+| | | | | |         divide Merge branches 'branch4' and 'branch5' into branch6
+| | | | | |
+| | | | | * commit 161979a68912e2c3919beb6997bcc2f805110177
+| | |_|_|/  Author: Danila Manturov <manturov.dan@mail.ru>
+| |/| | |   Date:   Fri Apr 9 18:59:37 2021 +0300
+| | | | |
+| | | | |       div 3 - 5
+| | | | |
+| | | | * commit 5c0e4e8f86a74cceefa7e1f1b791b3386e1ac485
+| | |_|/  Author: Danila Manturov <manturov.dan@mail.ru>
+| |/| |   Date:   Fri Apr 9 18:58:36 2021 +0300
+| | | |
+| | | |       div3 - 4
+| | | |
+| | | * commit e1345a2d4660f5c5fad6e77067b87065ddc5f7da
+| | |/  Author: Danila Manturov <manturov.dan@mail.ru>
+| |/|   Date:   Fri Apr 9 19:00:51 2021 +0300
+| | |
+| | |       div3 - 6
+| | |
+| * | commit 902285b2aa93096df8969f2736bf31264e034556 (HEAD -> master, origin/master, origin/HEAD)
+| |/  Author: Danila Manturov <manturov.dan@mail.ru>
+| |   Date:   Fri Apr 9 18:56:58 2021 +0300
+| |
+| |       div3 commit
+| |
+| * commit 5184c42477c1c884a9f827fc76a10f3bd03f4004
+|/  Author: Danila Manturov <manturov.dan@mail.ru>
+|   Date:   Fri Apr 9 18:55:25 2021 +0300
+|
+|       first dividing
+|
+* commit 5e6e2726e0148965a4f98091fd44e34bb5397c05 (origin/branch2)
+| Author: Danila Manturov <manturov.dan@mail.ru>
+| Date:   Fri Apr 9 18:53:45 2021 +0300
+|
+|     third commit
+|
+* commit 2a392f2b39abe791c35a24521a7bab2ffb9b7efb (origin/branch1)
+| Author: Danila Manturov <manturov.dan@mail.ru>
+| Date:   Fri Apr 9 18:52:23 2021 +0300
+|
+|     2nd file
+|
+* commit 4c4805bb5b7e37d584d6b53a2699a95893c7e1bd
+  Author: Danila Manturov <manturov.dan@mail.ru>
+  Date:   Fri Apr 9 18:51:58 2021 +0300
+
+      initial commit

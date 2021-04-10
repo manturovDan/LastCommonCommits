@@ -16,13 +16,22 @@ public class MultipleBranching {
         System.out.println("MultipleBranching Test");
         LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
         LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "multipleBranching", AlgorithmTests.token);
+        int i = 1;
         for (String branchesPair : MultipleBranchingMergeBase.lastCommon.keySet()) {
             String[] branches = branchesPair.split(":");
-            System.out.println(Arrays.toString(branches));
-            Collection<String> result = finder.findLastCommonCommits(branches[0], branches[1]);
+            Collection<String> result;
+            System.out.print(i + "/" + MultipleBranchingMergeBase.lastCommon.size() + " ");
+            if (i % 2 == 1) {
+                result = finder.findLastCommonCommits(branches[0], branches[1]);
+                 System.out.println(Arrays.toString(branches));
+            }
+            else {
+                System.out.println(Arrays.toString(new String[] { branches[1], branches[0] }));
+                result = finder.findLastCommonCommits(branches[1], branches[0]);
+            }
 
             Assertions.assertEquals(new HashSet<>(MultipleBranchingMergeBase.lastCommon.get(branchesPair)), new HashSet<>(result));
-
+            i++;
         }
     }
 }

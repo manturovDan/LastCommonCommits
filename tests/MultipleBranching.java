@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 public class MultipleBranching {
@@ -20,9 +21,8 @@ public class MultipleBranching {
             System.out.println(Arrays.toString(branches));
             Collection<String> result = finder.findLastCommonCommits(branches[0], branches[1]);
 
-            String out = result.stream().map(String::valueOf).collect(Collectors.joining(" "));
+            Assertions.assertEquals(new HashSet<>(MultipleBranchingMergeBase.lastCommon.get(branchesPair)), new HashSet<>(result));
 
-            Assertions.assertEquals(MultipleBranchingMergeBase.lastCommon.get(branchesPair), out);
         }
     }
 }

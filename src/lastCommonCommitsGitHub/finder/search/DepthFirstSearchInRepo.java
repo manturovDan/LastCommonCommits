@@ -19,14 +19,17 @@ public class DepthFirstSearchInRepo {
     }
 
     public String buildGitGraph(String branchName) throws IOException {
-        //TODO Optimization
         JSONHandler.JSONCommitsFeeder commits = HTTPInteraction.getCommits(branchName);
         String topCommit = null;
         while (commits.hasNextCommit()) {
             AbstractMap.SimpleEntry<String, List<String>> commit = commits.getNextCommit();
-            storage.addCommitInRepo(commit);
-            if (topCommit == null)
+            if (topCommit == null) {
                 topCommit = commit.getKey();
+                if (storage.getRepositoryGraph().containsCommitInGraph(topCommit))
+                    break;
+            }
+
+            storage.addCommitInRepo(commit);
         }
 
         return topCommit;
@@ -36,6 +39,7 @@ public class DepthFirstSearchInRepo {
         long lastEventIdInStorage = storage.getLastEvent();
         long lastEventIdInRemote = HTTPInteraction.lastEvent();
         if (lastEventIdInRemote != lastEventIdInStorage) {
+            //TODO help GC
             storage = new SearchStorage(HTTPInteraction.getRepo(), lastEventIdInRemote);
         }
 
@@ -63,7 +67,6 @@ public class DepthFirstSearchInRepo {
             depthFastSearch(topBranchA, this::addCommitInPreStored);
             topBranchB = buildGitGraph(branchB);
 
-            //TODO take last commits and check if there are another branches
             storage.getRepositoryGraph().setTopCommit(branchA, topBranchA);
             storage.getRepositoryGraph().setTopCommit(branchB, topBranchB);
 

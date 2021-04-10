@@ -19,6 +19,7 @@ public class DepthFirstSearchInRepo {
     }
 
     public String buildGitGraph(String branchName) throws IOException {
+        //TODO Optimization
         JSONHandler.JSONCommitsFeeder commits = HTTPInteraction.getCommits(branchName);
         String topCommit = null;
         while (commits.hasNextCommit()) {

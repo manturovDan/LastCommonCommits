@@ -59,4 +59,11 @@ public class SearchStorage {
     public String getRepo() {
         return repo;
     }
+
+    public void clearIntermediate() {
+        preStoredBranch.clear();
+        commitsPreliminarilyUnderLastCommon.clear();
+        commitsUnderLastCommon.clear();
+        lastCommonCommits.clear();
+    }
 }

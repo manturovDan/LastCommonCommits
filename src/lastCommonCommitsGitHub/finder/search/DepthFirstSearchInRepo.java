@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Function;
 
 public class DepthFirstSearchInRepo {
     private SearchStorage storage;
@@ -52,19 +51,14 @@ public class DepthFirstSearchInRepo {
         return lastCommonCommits;
     }
 
-    //TODO move to storage class
     private void clearIntermediateData() {
-        storage.getPreStoredBranch().clear();
-        storage.getCommitsUnderLastCommon().clear();
-        storage.getLastCommonCommits().clear();
-        storage.getCommitsPreliminarilyUnderLastCommon().clear();
+        storage.clearIntermediate();
     }
 
     private void handleBranchesIfBothArentCached(String branchA, String topBranchA,
                                                  String branchB, String topBranchB) throws IOException {
         if (topBranchA == null && topBranchB == null) {
             topBranchA = buildGitGraph(branchA);
-            //storage.copyCommitsFromGraphToPreStoredBranch(); //bug
             depthFastSearch(topBranchA, this::addCommitInPreStored);
             topBranchB = buildGitGraph(branchB);
 
@@ -99,21 +93,21 @@ public class DepthFirstSearchInRepo {
 
     }
 
-    private void searchDeeper(Function<String, Function> action) {
+    private void searchDeeper(DFSAction action) {
         while (!storage.getDfsStack().isEmpty()) {
             String currentCommit = storage.getDfsStack().pop();
             action = action.apply(currentCommit);
         }
     }
 
-    private Function<String, Function> addCommitInPreStored(String commit) {
+    private DFSAction addCommitInPreStored(String commit) {
         storage.getPreStoredBranch().add(commit);
         //TODO if exists log off
         pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
         return this::addCommitInPreStored;
     }
 
-    private Function<String, Function> handleCommitAsPotentiallyPreStored(String commit) {
+    private DFSAction handleCommitAsPotentiallyPreStored(String commit) {
         if (storage.getPreStoredBranch().contains(commit)) {
             if(!storage.getCommitsUnderLastCommon().contains(commit)) {
                 storage.getLastCommonCommits().add(commit);
@@ -130,7 +124,7 @@ public class DepthFirstSearchInRepo {
         return this::handleCommitAsPotentiallyPreStored;
     }
 
-    private Function<String, Function> handleCommitAsCommon(String commit) {
+    private DFSAction handleCommitAsCommon(String commit) {
         if (!storage.getCommitsUnderLastCommon().contains(commit)) {
             storage.getCommitsUnderLastCommon().add(commit);
             storage.getLastCommonCommits().remove(commit);
@@ -146,10 +140,10 @@ public class DepthFirstSearchInRepo {
         if (storage.getDfsStack().isEmpty() ||
                 storage.getCommitsPreliminarilyUnderLastCommon().contains(storage.getDfsStack().getTop()))
             return this::handleCommitAsCommon;
-        return this::handleCommitAsPotentiallyPreStored; //bug
+        return this::handleCommitAsPotentiallyPreStored;
     }
 
-    private void depthFastSearch(String topCommit, Function<String, Function> action) {
+    private void depthFastSearch(String topCommit, DFSAction action) {
         storage.getDfsStack().push(topCommit);
         searchDeeper(action);
     }

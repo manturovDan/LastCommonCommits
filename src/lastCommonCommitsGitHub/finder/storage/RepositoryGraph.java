@@ -17,10 +17,6 @@ public class RepositoryGraph {
         commitGraph.put(commit, parents);
     }
 
-    HashSet<String> keys() {
-        return new HashSet<>(commitGraph.keySet());
-    }
-
     public List<String> getParents(String commit) {
         return commitGraph.get(commit);
     }

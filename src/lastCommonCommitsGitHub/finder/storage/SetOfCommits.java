@@ -11,10 +11,6 @@ public class SetOfCommits {
         commitsSet = new HashSet<>();
     }
 
-    void establishSet(HashSet<String> commitsSet) {
-        this.commitsSet = commitsSet;
-    }
-
     public boolean contains(String commit) {
         return commitsSet.contains(commit);
     }

@@ -7,15 +7,11 @@ import java.io.IOException;
 import java.util.Collection;
 
 public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
-    private final String owner;
-    private final String repo;
     private final HTTPGitHub HTTPInteraction;
     private DepthFirstSearchInRepo search;
     private static final int attemptsCount = 5;
 
     public LastCommonCommitsFinderGitHub(String owner, String repo, String token) {
-        this.owner = owner;
-        this.repo = repo;
         HTTPInteraction = new HTTPGitHub(owner, repo, token);
     }
 

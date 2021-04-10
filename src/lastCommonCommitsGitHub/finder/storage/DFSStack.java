@@ -11,13 +11,10 @@ public class DFSStack {
 
     public void push(String commit) {
         dfsCommits.push(commit);
-        //System.out.println(dfsCommits);
     }
 
     public String pop() {
-        String res = dfsCommits.pop();
-        //System.out.println(dfsCommits);
-        return res;
+        return dfsCommits.pop();
     }
 
     public String getTop() {

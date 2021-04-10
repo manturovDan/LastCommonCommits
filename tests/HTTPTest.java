@@ -3,10 +3,14 @@ import lastCommonCommitsGitHub.finder.LastCommonCommitsFinder;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactory;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactoryGitHub;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderGitHub;
+import lastCommonCommitsGitHub.finder.search.DepthFirstSearchInRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.Scanner;
 
 public class HTTPTest {
     @Test
@@ -21,7 +25,7 @@ public class HTTPTest {
 
     @Test
     public void lastEventTestOld() throws IOException {
-        HTTPGitHub interaction = new HTTPGitHub("manturovDan", "Sake", AlgorithmTests.token);
+        HTTPGitHub interaction = new HTTPGitHub("manturovDan", "Sake", "");
         Assertions.assertEquals(0L, interaction.lastEvent());
     }
 
@@ -31,4 +35,5 @@ public class HTTPTest {
         LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "emptyRepo", AlgorithmTests.token);
         Assertions.assertThrows(IOException.class, () -> finder.findLastCommonCommits("A", "B"));
     }
+
 }

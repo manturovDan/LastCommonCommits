@@ -1,3 +1,4 @@
+import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinder;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactory;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactoryGitHub;
@@ -110,6 +111,16 @@ public class CachingTest {
                 .create("manturovDanExperimental", "cross3", AlgorithmTests.token);
 
         Assertions.assertNotEquals(finder1, finderOther);
+
+        LastCommonCommitsFinderGitHub finder5 = (LastCommonCommitsFinderGitHub) factory
+                .create("manturovDanExperimental", "commonInitial", "xxx");
+
+        Assertions.assertEquals(finder1, finder5);
+
+        Field HTTPField = DepthFirstSearchInRepo.class.getDeclaredField("HTTPInteraction");
+        HTTPField.setAccessible(true);
+        HTTPGitHub http = (HTTPGitHub) HTTPField.get(search);
+        Assertions.assertEquals("xxx", http.getToken());
 
     }
 

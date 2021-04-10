@@ -13,7 +13,7 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     private DepthFirstSearchInRepo search;
     private static final int attemptsCount = 5;
 
-    LastCommonCommitsFinderGitHub(String owner, String repo, String token) {
+    public LastCommonCommitsFinderGitHub(String owner, String repo, String token) {
         this.owner = owner;
         this.repo = repo;
         HTTPInteraction = new HTTPGitHub(owner, repo, token);

@@ -37,14 +37,6 @@ public class AlgorithmTests {
         return (HashMap<String, List<String>>) commitGraphField.get(graph);
     }
 
-    private HashSet<String> getPreStoredBranch(SearchStorage storage) throws Exception {
-        Field preStoredField = SearchStorage.class.getDeclaredField("preStoredBranch");
-        preStoredField.setAccessible(true);
-        SetOfCommits preStored = (SetOfCommits) preStoredField.get(storage);
-
-        return getInternalSetOfSetOfCommits(preStored);
-    }
-
     @SuppressWarnings("unchecked")
     private HashSet<String> getInternalSetOfSetOfCommits(SetOfCommits set) throws Exception {
         Field setField = SetOfCommits.class.getDeclaredField("commitsSet");

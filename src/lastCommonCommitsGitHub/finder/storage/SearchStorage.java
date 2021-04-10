@@ -28,14 +28,6 @@ public class SearchStorage {
         repositoryGraph.put(pairCommitParents.getKey(), pairCommitParents.getValue());
     }
 
-    public void copyCommitsFromGraphToPreStoredBranch() {
-        preStoredBranch.establishSet(repositoryGraph.keys());
-    }
-
-    public String presentRepoGraph() {
-        return repositoryGraph.toString();
-    }
-
     public DFSStack getDfsStack() {
         return dfsStack;
     }

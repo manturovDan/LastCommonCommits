@@ -26,6 +26,8 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
 
         Collection<String> result;
 
+        //pushes can affect on our functionality (for example they can contain rebase)
+        //tested via breakpoint
         for (int attempt = 0; attempt < attemptsCount; ++attempt) {
             result = search.lastCommonCommits(branchA, branchB);
 

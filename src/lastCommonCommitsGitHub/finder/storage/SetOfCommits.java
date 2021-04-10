@@ -35,6 +35,10 @@ public class SetOfCommits {
         commitsSet.clear();
     }
 
+    public int size() {
+        return commitsSet.size();
+    }
+
     @Override
     public String toString() {
         return commitsSet.toString();

@@ -91,9 +91,11 @@ public class DepthFirstSearchInRepo {
 
         if (topBranchB == null) {
             topBranchB = buildGitGraph(branchB);
+            storage.getRepositoryGraph().setTopCommit(branchB, topBranchB);
         }
 
         depthFastSearch(topBranchB, this::handleCommitAsPotentiallyPreStored);
+
     }
 
     private void searchDeeper(Function<String, Function> action) {

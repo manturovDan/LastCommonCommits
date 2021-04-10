@@ -1,4 +1,7 @@
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
+import lastCommonCommitsGitHub.finder.LastCommonCommitsFinder;
+import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactory;
+import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactoryGitHub;
 import lastCommonCommitsGitHub.finder.search.DepthFirstSearchInRepo;
 import lastCommonCommitsGitHub.finder.storage.RepositoryGraph;
 import lastCommonCommitsGitHub.finder.storage.SearchStorage;
@@ -6,13 +9,15 @@ import lastCommonCommitsGitHub.finder.storage.SetOfCommits;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
 public class AlgorithmTests {
-    public static final String token = "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";
+    public static final String token = "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";
 
     private SearchStorage getStorageFromDFS(DepthFirstSearchInRepo dfs) throws Exception {
         Field storageField = DepthFirstSearchInRepo.class.getDeclaredField("storage");
@@ -184,21 +189,13 @@ public class AlgorithmTests {
                 .contains("d9ac181925ef186b66efa4a82ba73e88ea3bc98a"));
     }
 
-    //@Test
-    public void lastCommonCommitsABTest() throws Exception {
-        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", token);
-        DepthFirstSearchInRepo dfs = new DepthFirstSearchInRepo(interaction);
-        dfs.lastCommonCommits("A", "B");
-        cross3FullRepo(dfs);
+    @Test
+    public void singleCommit() throws IOException {
+        LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
+        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "repoWithOneCommit", AlgorithmTests.token);
 
-        HashSet<String> preStored = getPreStoredBranch(getStorageFromDFS(dfs));
-
-        Assertions.assertEquals(preStored.size(), 5);
-        Assertions.assertTrue(preStored.contains("84e222f75a5b37b63602abcb2b46f9984093d3d7"));
-        Assertions.assertTrue(preStored.contains("615ba764d7ce72e496324b28dab880a6fed56455"));
-        Assertions.assertTrue(preStored.contains("55242422e68e4b9f817e3fe9702e2fa49859c2cf"));
-        Assertions.assertTrue(preStored.contains("d9ac181925ef186b66efa4a82ba73e88ea3bc98a"));
-        Assertions.assertTrue(preStored.contains("18944685cb9f413ee3e52cdb6db02559c6fdcccd"));
-
+        Collection<String> common = finder.findLastCommonCommits("master", "another");
+        Assertions.assertEquals(common.size(), 1);
+        Assertions.assertTrue(common.contains("f6acc9a95c8e5ca1ae4f0c416b5542fc197f0fb1"));
     }
 }

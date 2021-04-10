@@ -10,7 +10,7 @@ public class HTTPGitHub implements HTTPGitHubMediator {
 
     private final String owner;
     private final String repo;
-    private final String token;
+    private String token;
     private final HttpClient client;
 
     private LastEventGetter lastEventGetter;
@@ -88,5 +88,9 @@ public class HTTPGitHub implements HTTPGitHubMediator {
 
     public JSONHandler.JSONCommitsFeeder getCommits(String branchName) throws IOException {
         return commitsGetter.retrieveCommits(branchName);
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

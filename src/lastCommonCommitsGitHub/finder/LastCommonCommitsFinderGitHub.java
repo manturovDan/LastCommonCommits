@@ -9,7 +9,6 @@ import java.util.Collection;
 public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     private final String owner;
     private final String repo;
-    private String token;
     private final HTTPGitHub HTTPInteraction;
     private DepthFirstSearchInRepo search;
     private static final int attemptsCount = 5;
@@ -17,7 +16,6 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     LastCommonCommitsFinderGitHub(String owner, String repo, String token) {
         this.owner = owner;
         this.repo = repo;
-        this.token = token;
         HTTPInteraction = new HTTPGitHub(owner, repo, token);
     }
 
@@ -39,6 +37,6 @@ public class LastCommonCommitsFinderGitHub implements LastCommonCommitsFinder {
     }
 
     public void setToken(String token) {
-        this.token = token;
+        HTTPInteraction.setToken(token);
     }
 }

@@ -55,7 +55,7 @@ public class CachingTest {
 
         checkAllIntermediateDataWasCleared(storage);
 
-        Collection<String> common35 = finder1.findLastCommonCommits("branch5", "branch3");
+        Collection<String> common35 = finder2.findLastCommonCommits("branch5", "branch3");
         Assertions.assertEquals(common35.size(), 2);
         Assertions.assertTrue(common35.contains("897f12602df145b72da060c739ca0d732c1b6346"));
         Assertions.assertTrue(common35.contains("f44a627a095ef81374e0c883768c8bc23307e031"));
@@ -66,6 +66,50 @@ public class CachingTest {
         Assertions.assertEquals(branchTopCommit.get("master"), "7ad9a998ead5955b3cc4f512e5fa5c0e69e58b98");
         Assertions.assertEquals(branchTopCommit.get("branch5"), "98736d3d2aeffeafc16e26db1044d198190e203b");
         Assertions.assertEquals(branchTopCommit.get("branch3"), "ffa3735a0bdc912e4eb909959faac5f83316c8ea");
+
+        checkAllIntermediateDataWasCleared(storage);
+
+
+        LastCommonCommitsFinderGitHub finder3 = (LastCommonCommitsFinderGitHub) factory
+                .create("manturovDanExperimental", "commonInitial", AlgorithmTests.token);
+
+        Assertions.assertEquals(finder1, finder3);
+
+        Collection<String> common24 = finder3.findLastCommonCommits("branch2", "branch4");
+
+        Assertions.assertEquals(11, graph.size());
+        Assertions.assertEquals(5, branchTopCommit.size());
+
+        Assertions.assertEquals(common24.size(), 2);
+        Assertions.assertTrue(common24.contains("897f12602df145b72da060c739ca0d732c1b6346"));
+        Assertions.assertTrue(common24.contains("f44a627a095ef81374e0c883768c8bc23307e031"));
+
+        Assertions.assertEquals(branchTopCommit.get("branch4"), "98736d3d2aeffeafc16e26db1044d198190e203b");
+        Assertions.assertEquals(branchTopCommit.get("branch2"), "ffa3735a0bdc912e4eb909959faac5f83316c8ea");
+
+
+        LastCommonCommitsFinderGitHub finder4 = (LastCommonCommitsFinderGitHub) factory
+                .create("manturovDanExperimental", "commonInitial", AlgorithmTests.token);
+
+        Assertions.assertEquals(finder1, finder4);
+
+        Collection<String> common24_2 = finder4.findLastCommonCommits("branch2", "branch4");
+
+        Assertions.assertEquals(11, graph.size());
+        Assertions.assertEquals(5, branchTopCommit.size());
+
+        Assertions.assertEquals(common24_2.size(), 2);
+        Assertions.assertTrue(common24_2.contains("897f12602df145b72da060c739ca0d732c1b6346"));
+        Assertions.assertTrue(common24_2.contains("f44a627a095ef81374e0c883768c8bc23307e031"));
+
+        Assertions.assertEquals(branchTopCommit.get("branch4"), "98736d3d2aeffeafc16e26db1044d198190e203b");
+        Assertions.assertEquals(branchTopCommit.get("branch2"), "ffa3735a0bdc912e4eb909959faac5f83316c8ea");
+
+
+        LastCommonCommitsFinderGitHub finderOther = (LastCommonCommitsFinderGitHub) factory
+                .create("manturovDanExperimental", "cross3", AlgorithmTests.token);
+
+        Assertions.assertNotEquals(finder1, finderOther);
 
     }
 

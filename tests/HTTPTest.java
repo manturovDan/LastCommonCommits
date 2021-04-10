@@ -1,4 +1,8 @@
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
+import lastCommonCommitsGitHub.finder.LastCommonCommitsFinder;
+import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactory;
+import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactoryGitHub;
+import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderGitHub;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -19,5 +23,12 @@ public class HTTPTest {
     public void lastEventTestOld() throws IOException {
         HTTPGitHub interaction = new HTTPGitHub("manturovDan", "Sake", AlgorithmTests.token);
         Assertions.assertEquals(0L, interaction.lastEvent());
+    }
+
+    @Test
+    public void emptyRepo() {
+        LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
+        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "emptyRepo", AlgorithmTests.token);
+        Assertions.assertThrows(IOException.class, () -> finder.findLastCommonCommits("A", "B"));
     }
 }

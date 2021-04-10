@@ -61,7 +61,8 @@ public class DepthFirstSearchInRepo {
                                                  String branchB, String topBranchB) throws IOException {
         if (topBranchA == null && topBranchB == null) {
             topBranchA = buildGitGraph(branchA);
-            storage.copyCommitsFromGraphToPreStoredBranch();
+            //storage.copyCommitsFromGraphToPreStoredBranch(); //bug
+            depthFastSearch(topBranchA, this::addCommitInPreStored);
             topBranchB = buildGitGraph(branchB);
 
             //TODO take last commits and check if there are another branches
@@ -103,6 +104,7 @@ public class DepthFirstSearchInRepo {
     private Function<String, Function> addCommitInPreStored(String commit) {
         storage.getPreStoredBranch().add(commit);
         //TODO if exists log off
+        pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
         return this::addCommitInPreStored;
     }
 

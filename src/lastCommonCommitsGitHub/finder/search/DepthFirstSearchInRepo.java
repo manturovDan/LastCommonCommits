@@ -33,9 +33,10 @@ public class DepthFirstSearchInRepo {
     }
 
     public Collection<String> lastCommonCommits(String branchA, String branchB) throws IOException {
-        long lastEventId = storage.getLastEvent();
-        if (HTTPInteraction.lastEvent() != lastEventId) {
-            storage = new SearchStorage(HTTPInteraction.getRepo(), lastEventId);
+        long lastEventIdInStorage = storage.getLastEvent();
+        long lastEventIdInRemote = HTTPInteraction.lastEvent();
+        if (lastEventIdInRemote != lastEventIdInStorage) {
+            storage = new SearchStorage(HTTPInteraction.getRepo(), lastEventIdInRemote);
         }
 
         String topBranchA = storage.getRepositoryGraph().getTopCommit(branchA);

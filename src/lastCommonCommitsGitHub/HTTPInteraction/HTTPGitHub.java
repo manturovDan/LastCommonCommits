@@ -34,11 +34,6 @@ public class HTTPGitHub implements HTTPGitHubMediator {
     }
 
     @Override
-    public HttpClient getClient() {
-        return client;
-    }
-
-    @Override
     public String getOwner() {
         return owner;
     }

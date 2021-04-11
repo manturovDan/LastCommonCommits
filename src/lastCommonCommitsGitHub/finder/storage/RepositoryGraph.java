@@ -1,6 +1,5 @@
 package lastCommonCommitsGitHub.finder.storage;
 
-import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.List;
 

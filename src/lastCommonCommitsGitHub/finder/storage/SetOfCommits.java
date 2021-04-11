@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class SetOfCommits {
-    private HashSet<String> commitsSet;
+    private final HashSet<String> commitsSet;
 
     SetOfCommits() {
         commitsSet = new HashSet<>();

@@ -2,6 +2,7 @@ package lastCommonCommitsGitHub.finder.search;
 
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
 import lastCommonCommitsGitHub.HTTPInteraction.JSONHandler;
+import lastCommonCommitsGitHub.finder.ExternalRepoUpdateException;
 import lastCommonCommitsGitHub.finder.storage.SearchStorage;
 
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class DepthFirstSearchInRepo {
         return topCommit;
     }
 
-    public Collection<String> lastCommonCommits(String branchA, String branchB) throws IOException {
+    public Collection<String> lastCommonCommits(String branchA, String branchB) throws IOException, ExternalRepoUpdateException {
         long lastEventIdInStorage = storage.getLastEvent();
         long lastEventIdInRemote = HTTPInteraction.lastEvent();
         if (lastEventIdInRemote != lastEventIdInStorage) {
@@ -67,11 +68,11 @@ public class DepthFirstSearchInRepo {
             storage = new SearchStorage(HTTPInteraction.getRepo(), lastEventIdInRemote);
         }
 
+
         String topBranchA = storage.getRepositoryGraph().getTopCommit(branchA);
         String topBranchB = storage.getRepositoryGraph().getTopCommit(branchB);
 
-        handleBranchesIfAtLeastOneIsCached(branchA, topBranchA, branchB, topBranchB);
-        handleBranchesIfBothArentCached(branchA, topBranchA, branchB, topBranchB);
+        handleBranches(branchA, topBranchA, branchB, topBranchB);
 
         Collection<String> lastCommonCommits = storage.getLastCommonCommits().getList();
 
@@ -82,6 +83,17 @@ public class DepthFirstSearchInRepo {
 
     private void clearIntermediateData() {
         storage.clearIntermediate();
+    }
+
+    private void handleBranches(String branchA, String topBranchA,
+                                String branchB, String topBranchB) throws IOException, ExternalRepoUpdateException {
+        try {
+            handleBranchesIfAtLeastOneIsCached(branchA, topBranchA, branchB, topBranchB);
+            handleBranchesIfBothArentCached(branchA, topBranchA, branchB, topBranchB);
+        } catch (NullPointerException e) {
+            //graph NPE due to rebase
+            throw new ExternalRepoUpdateException();
+        }
     }
 
     private void handleBranchesIfBothArentCached(String branchA, String topBranchA,

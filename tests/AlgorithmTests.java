@@ -17,8 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 
 public class AlgorithmTests {
-    public static final String token = "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";
-
     private SearchStorage getStorageFromDFS(DepthFirstSearchInRepo dfs) throws Exception {
         Field storageField = DepthFirstSearchInRepo.class.getDeclaredField("storage");
         storageField.setAccessible(true);
@@ -69,7 +67,7 @@ public class AlgorithmTests {
     }
 
     public void cross3BranchBCTest(String branchBC) throws Exception {
-        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", token);
+        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", OAuthToken.token);
         DepthFirstSearchInRepo dfs = new DepthFirstSearchInRepo(interaction);
         dfs.buildGitGraph(branchBC);
         SearchStorage storage = getStorageFromDFS(dfs);
@@ -92,7 +90,7 @@ public class AlgorithmTests {
 
     @Test
     public void cross3BranchATest() throws Exception {
-        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", token);
+        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", OAuthToken.token);
         DepthFirstSearchInRepo dfs = new DepthFirstSearchInRepo(interaction);
         String aTop = dfs.buildGitGraph("A");
 
@@ -128,7 +126,7 @@ public class AlgorithmTests {
 
     @Test
     public void cross3BranchMasterTest() throws Exception {
-        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", token);
+        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", OAuthToken.token);
         DepthFirstSearchInRepo dfs = new DepthFirstSearchInRepo(interaction);
         dfs.buildGitGraph("master");
         SearchStorage storage = getStorageFromDFS(dfs);
@@ -141,7 +139,7 @@ public class AlgorithmTests {
 
     @Test
     public void cross3ABTest() throws Exception {
-        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", token);
+        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", OAuthToken.token);
         DepthFirstSearchInRepo dfs = new DepthFirstSearchInRepo(interaction);
         String aTop = dfs.buildGitGraph("A");
         String bTop = dfs.buildGitGraph("B");
@@ -154,7 +152,7 @@ public class AlgorithmTests {
 
     @Test
     public void cross3ABCTest() throws Exception {
-        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", token);
+        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", OAuthToken.token);
         DepthFirstSearchInRepo dfs = new DepthFirstSearchInRepo(interaction);
         dfs.buildGitGraph("A");
         dfs.buildGitGraph("B");
@@ -184,7 +182,7 @@ public class AlgorithmTests {
     @Test
     public void singleCommit() throws IOException {
         LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
-        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "repoWithOneCommit", AlgorithmTests.token);
+        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "repoWithOneCommit", OAuthToken.token);
 
         Collection<String> common = finder.findLastCommonCommits("master", "another");
         Assertions.assertEquals(common.size(), 1);

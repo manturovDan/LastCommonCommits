@@ -8,14 +8,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.stream.Collectors;
 
 public class MultipleBranching {
     @Test
     public void complexRepo() throws IOException {
         System.out.println("MultipleBranching Test");
         LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
-        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "multipleBranching", AlgorithmTests.token);
+        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "multipleBranching", OAuthToken.token);
         int i = 1;
         for (String branchesPair : MultipleBranchingMergeBase.lastCommon.keySet()) {
             String[] branches = branchesPair.split(":");

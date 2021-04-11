@@ -9,6 +9,30 @@ import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * It is core class for last common commit(-s) search
+ * sequencing:
+ * 1) receiving the first branch graph and putting it into storage.repositoryGraph (it can be saved previously, in this case do nothing)
+ * 2) putting all sha-s of the first branch in storage.preStoredBranch
+ * 3) receiving the second branch graph and putting it into the same storage.repositoryGraph
+ *      (it can be saver previously, in this case do nothing, this graph can also contain saved other branches)
+ * 4) DFS #1 (without marking commits because we haven't cycles in commit-tree) the second branch. When we meet commit:
+ *      * does storage.preStoredBranch contain this commit?:
+ *          YES: does storage.underLastCommonCommits (commit that are under commits that are considered now as last-common) contain this commit
+ *              NO: put this commit into storage.lastCommonCommits - result collection,
+ *                  put into storage.dfsStack (it is stack for DFS to avoid recursion) List of current commit's parents
+ *                  put into storage.commitsPreliminarilyUnderLastCommon current commit's parents (marking parents as commits, that are under last common commits)
+ *                  DFS #2 to next commit from stack with other action:
+ *                      * does storage.underLastCommonCommits contain this commit?
+ *                          NO: add commit into storage.underLastCommonCommits and delete from storage.lastCommonCommits, because this commit is common, but not last
+ *                              put into storage.dfsStack  List of current commit's parents
+ *                              put into storage.commitsPreliminarilyUnderLastCommon current commit's parents
+ *                          if next commit from the stack in marked (storage.commitsPreliminarilyUnderLastCommon) continue with DFS#2, else with DFS#1
+ *
+ *          NO: put into storage.dfsStack (it is stack for DFS to avoid recursion) List of current commit's parents
+ * 5) clear all intermediate data: storage.preStoredBranch, storage.commitsPreliminarilyUnderLastCommon, storage.commitsUnderLastCommon, storage.lastCommonCommits
+ */
+
 public class DepthFirstSearchInRepo {
     private SearchStorage storage;
     private final HTTPGitHub HTTPInteraction;

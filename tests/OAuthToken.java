@@ -1,3 +1,4 @@
 public class OAuthToken {
-    public static final String token = "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";
+    //for token if need contact me in Telegram: @ManturovD
+    public static final String token = "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";
 }

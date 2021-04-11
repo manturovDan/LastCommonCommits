@@ -10,7 +10,7 @@ import java.io.IOException;
 public class HTTPTest {
     @Test
     public void lastEventTest() throws IOException {
-        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", OAuthToken.token);
+        HTTPGitHub interaction = new HTTPGitHub("manturovDanExperimental", "cross3", OAuthToken.tokenManturovDanExperimental);
         //datetime of push + 90 days
         if (1617531792L + 90*24*60*60 > (System.currentTimeMillis() / 1000L))
             Assertions.assertEquals(15808095406L, interaction.lastEvent());
@@ -27,7 +27,7 @@ public class HTTPTest {
     @Test
     public void emptyRepo() {
         LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
-        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "emptyRepo", OAuthToken.token);
+        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "emptyRepo", OAuthToken.tokenManturovDanExperimental);
         Assertions.assertThrows(IOException.class, () -> finder.findLastCommonCommits("A", "B"));
     }
 

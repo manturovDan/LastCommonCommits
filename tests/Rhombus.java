@@ -14,7 +14,7 @@ public class Rhombus {
     public void rhombusTest() throws IOException {
         System.out.println("Rhombus Test");
         LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
-        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "rhombus", OAuthToken.token);
+        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "rhombus", OAuthToken.tokenManturovDanExperimental);
         int i = 1;
         for (String branchesPair : RhombusMergeBase.lastCommon.keySet()) {
             String[] branches = branchesPair.split(":");

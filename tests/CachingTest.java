@@ -1,5 +1,4 @@
 import lastCommonCommitsGitHub.HTTPInteraction.HTTPGitHub;
-import lastCommonCommitsGitHub.finder.LastCommonCommitsFinder;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactory;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderFactoryGitHub;
 import lastCommonCommitsGitHub.finder.LastCommonCommitsFinderGitHub;
@@ -22,7 +21,7 @@ public class CachingTest {
     public void checkCaching() throws IOException, NoSuchFieldException, IllegalAccessException {
         LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
         LastCommonCommitsFinderGitHub finder1 = (LastCommonCommitsFinderGitHub) factory
-                .create("manturovDanExperimental", "commonInitial", OAuthToken.token);
+                .create("manturovDanExperimental", "commonInitial", OAuthToken.tokenManturovDanExperimental);
         Collection<String> common = finder1.findLastCommonCommits("branch5", "master");
         Assertions.assertEquals(common.size(), 1);
         Assertions.assertTrue(common.contains("57aa3a438f0449973dc7a3c2f87ecabf93cca9b4"));
@@ -50,7 +49,7 @@ public class CachingTest {
         Assertions.assertEquals(branchTopCommit.get("branch5"), "98736d3d2aeffeafc16e26db1044d198190e203b");
 
         LastCommonCommitsFinderGitHub finder2 = (LastCommonCommitsFinderGitHub) factory
-                .create("manturovDanExperimental", "commonInitial", OAuthToken.token);
+                .create("manturovDanExperimental", "commonInitial", OAuthToken.tokenManturovDanExperimental);
 
         Assertions.assertEquals(finder1, finder2);
 
@@ -72,7 +71,7 @@ public class CachingTest {
 
 
         LastCommonCommitsFinderGitHub finder3 = (LastCommonCommitsFinderGitHub) factory
-                .create("manturovDanExperimental", "commonInitial", OAuthToken.token);
+                .create("manturovDanExperimental", "commonInitial", OAuthToken.tokenManturovDanExperimental);
 
         Assertions.assertEquals(finder1, finder3);
 
@@ -90,7 +89,7 @@ public class CachingTest {
 
 
         LastCommonCommitsFinderGitHub finder4 = (LastCommonCommitsFinderGitHub) factory
-                .create("manturovDanExperimental", "commonInitial", OAuthToken.token);
+                .create("manturovDanExperimental", "commonInitial", OAuthToken.tokenManturovDanExperimental);
 
         Assertions.assertEquals(finder1, finder4);
 
@@ -108,7 +107,7 @@ public class CachingTest {
 
 
         LastCommonCommitsFinderGitHub finderOther = (LastCommonCommitsFinderGitHub) factory
-                .create("manturovDanExperimental", "cross3", OAuthToken.token);
+                .create("manturovDanExperimental", "cross3", OAuthToken.tokenManturovDanExperimental);
 
         Assertions.assertNotEquals(finder1, finderOther);
 

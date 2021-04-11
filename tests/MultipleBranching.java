@@ -14,7 +14,7 @@ public class MultipleBranching {
     public void complexRepo() throws IOException {
         System.out.println("MultipleBranching Test");
         LastCommonCommitsFinderFactory factory = new LastCommonCommitsFinderFactoryGitHub();
-        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "multipleBranching", OAuthToken.token);
+        LastCommonCommitsFinder finder = factory.create("manturovDanExperimental", "multipleBranching", OAuthToken.tokenManturovDanExperimental);
         int i = 1;
         for (String branchesPair : MultipleBranchingMergeBase.lastCommon.keySet()) {
             String[] branches = branchesPair.split(":");

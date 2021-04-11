@@ -130,6 +130,7 @@ public class DepthFirstSearchInRepo {
 
     private DFSAction addCommitInPreStored(String commit) {
         storage.getPreStoredBranch().add(commit);
+        System.out.println(commit);
         pushCommitsListInStack(storage.getRepositoryGraph().getParents(commit));
         return this::addCommitInPreStored;
     }

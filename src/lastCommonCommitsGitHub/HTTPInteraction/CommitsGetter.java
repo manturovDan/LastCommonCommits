@@ -20,7 +20,7 @@ public class CommitsGetter {
 
     private String constructCommitsURI(String branchName) {
         return HTTPGitHub.GITHUB_API_LINK + "repos/" + mediator.getOwner()
-                + "/" + mediator.getRepo() + "/commits?sha=" + branchName;
+                + "/" + mediator.getRepo() + "/commits?sha=" + branchName + "&per_page=100";
     }
 
     private HttpRequest createCommitsRequest(String branchName) {

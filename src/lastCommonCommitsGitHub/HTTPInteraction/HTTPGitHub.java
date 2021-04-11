@@ -53,6 +53,11 @@ public class HTTPGitHub implements HTTPGitHubMediator {
         return jsonHandler;
     }
 
+    @Override
+    public CommitsGetter getCommitsGetter() {
+        return commitsGetter;
+    }
+
     public HttpRequest createRequestWithAuth(HttpRequest.Builder builder) {
         if (token.equals("")) {
             return builder.build();

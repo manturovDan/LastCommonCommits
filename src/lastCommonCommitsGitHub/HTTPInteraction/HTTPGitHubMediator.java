@@ -8,6 +8,7 @@ public interface HTTPGitHubMediator {
     String getRepo();
     String getToken();
     JSONHandler getJSONHAndler();
+    CommitsGetter getCommitsGetter();
     HttpRequest createRequestWithAuth(HttpRequest.Builder builder);
     String send(HttpRequest request) throws IOException;
 }

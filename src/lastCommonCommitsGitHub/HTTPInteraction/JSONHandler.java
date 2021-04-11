@@ -1,25 +1,36 @@
 package lastCommonCommitsGitHub.HTTPInteraction;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
-import java.util.*;
-import org.json.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JSONHandler {
     public static class JSONCommitsFeeder {
         private int commitNum;
-        private final JSONArray commitsArray;
+        private JSONArray commitsArray;
+        private final String branchName;
+        private int page;
+        private final HTTPGitHubMediator mediator;
 
-        JSONCommitsFeeder(String response) throws IOException {
+        JSONCommitsFeeder(String response, String branchName, int page, HTTPGitHubMediator mediator) throws IOException {
             try {
                 commitsArray = new JSONArray(response);
                 commitNum = 0;
+                this.branchName = branchName;
+                this.page = page;
+                this.mediator = mediator;
             } catch (JSONException e) {
                 throw new IOException("Json Parsing commits exception");
             }
         }
 
         public AbstractMap.SimpleEntry<String, List<String>> getNextCommit() throws IOException {
-            if (commitNum == commitsArray.length())
+            if (!hasNextCommit())
                 return null;
 
             try {
@@ -45,8 +56,16 @@ public class JSONHandler {
             return parentsList;
         }
 
-        public boolean hasNextCommit() {
-            return commitNum != commitsArray.length();
+        public boolean hasNextCommit() throws IOException {
+            if (commitNum == commitsArray.length()) {
+                commitNum = 0;
+                String response = mediator.getCommitsGetter().getCommitsPage(branchName, ++page);
+                if (response.equals("[]"))
+                    return false;
+                commitsArray = new JSONArray(response);
+            }
+
+            return true;
         }
     }
 
